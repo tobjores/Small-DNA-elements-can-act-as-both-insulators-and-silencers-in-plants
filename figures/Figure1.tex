@@ -1,0 +1,245 @@
+\begin{tikzpicture}
+
+	%%% scheme
+	\coordinate (scheme) at (0, 0);
+	
+	% insulators
+	\node[anchor = north, xshift = .5\fourcolumnwidth, yshift = -.5\columnsep] (lins) at (scheme) {known insulators};
+	
+	\draw[line width = .1cm, Gold1] ($(scheme |- lins.base) + (.6, -.2)$) -- ++(.25\fourcolumnwidth, 0) coordinate (c1);
+	\draw[line width = .1cm, Goldenrod2] (c1) ++(.3, 0) -- ++(.75\fourcolumnwidth - 1.5cm, 0);
+	\draw[line width = .1cm, Goldenrod1] ($(scheme |- c1) + (.4, -.25)$) -- ++(.4\fourcolumnwidth, 0) coordinate (c2);
+	\draw[line width = .1cm, Gold2] (c2) ++(.2, 0) -- ++(.6\fourcolumnwidth - 1cm, 0);
+	\draw[line width = .1cm, insulator] ($(scheme |- c2) + (.2, -.25)$) coordinate (c3) -- ++(\fourcolumnwidth - .4cm, 0) coordinate (c4);
+	
+	\distance{c3}{c4}
+	
+	\coordinate (frags) at ($(scheme |- c3) + (.1, -.65)$);
+	
+	\node[anchor = south] at (lins |- frags) {split into smaller fragments};
+	
+	\foreach \x in {0, ..., 3} {
+		\draw[line width = .1cm, insulator] (frags) ++({\x * (.25\xdistance + .2cm/3)}, 0) -- ++(.25\xdistance, 0);
+		\ifnum\x>0
+			\draw[line width = .1cm, insulator] (frags) ++({\x * (.25\xdistance + .2cm/3)}, 0) ++(-.125\xdistance - .2cm/6, -.15) coordinate (f\x) -- ++(.25\xdistance, 0);
+		\fi
+	}
+	
+	\begin{pgfonlayer} {background}
+		\draw[thin, gray, out = -90, in = 90] (c3) ++(.5\pgflinewidth, 0) to (frags) (c4) to ($(frags) + (\xdistance + .2cm - .5\pgflinewidth, 0)$);
+	\end{pgfonlayer}
+	
+	\draw[Bar-Bar] (f3) ++(0, -.175) -- ++(.25\xdistance, 0) node[pos = .5, anchor = north, node font = \figsmall] {170 bp};
+	
+	% construct
+	\coordinate[shift = {({.5 * (\fourcolumnwidth - 3.3cm)}, -1.33)}] (construct) at (scheme |- frags);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(construct) + (.2, 0)$) -- ++(.6, 0) coordinate[pos = .5] (enh);
+
+	\draw[Latex-] (enh) ++(0, -.15) -- ++(0, -.4) coordinate (lenh);
+	\node[anchor = north] at (lenh -| .5\fourcolumnwidth, 0) {enhancer: \textcolor{35S}{\bfseries\usename{35S}}, \textcolor{AB80}{\bfseries\usename{AB80}}, or \textcolor{Cab-1}{\bfseries\usename{Cab-1}}};
+
+	\fill[insulator] (construct) ++(.9, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+
+	\draw[line width = .2cm, 35Spromoter] (construct) ++(1.5, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, minimum width = 1cm, outer xsep = 0pt] (GFP) at ($(pro) + (.45, 0)$) {GFP};
+	
+	\begin{pgfonlayer} {background}
+		\fill[Orchid1] (GFP.north west) ++(.15, 0) rectangle ($(GFP.south west) + (.05, 0)$);
+	\end{pgfonlayer}
+	
+	\coordinate[xshift = .2cm] (construct end) at (GFP.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct) -- (GFP.west);
+		\draw[thick, -{Bar[width = .1cm]}] (GFP.east) -- (construct end);
+	\end{pgfonlayer}
+	
+	\draw[thick, -Latex] (f2) ++(.125\xdistance, -.1) to[out = -90, in = 90] ($(ins) + (0, .05)$);
+	
+
+	%%% enrichment insulator fragments
+	\coordinate (iLib) at (scheme -| \textwidth - \threequartercolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(iLib)},
+		total width = {\textwidth - \fourcolumnwidth - \threecolumnwidth - 2\columnsep},
+		xlabel = enhancer,
+		ylabel = \enrichment,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{AB80}}},
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+	]{iLib_enrichment}
+	
+		\pggf_annotate(zeroline)
+	
+		\pggf_violin(
+			style from column = {fill* = xticklabels},
+			extra mark = {mark size = 2.5}{noIns}
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% iLib correlation assay systems
+	\coordinate (species) at (scheme -| \textwidth - \threecolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(species)},
+		total width = \threecolumnwidth,
+		xlabel = {\textbf{\tobacco:} \enrichment},
+		ylabel = {\textbf{\maize:} \enrichment},
+		col title = tobacco,
+		row title = maize,
+		title is csname,
+		title color from name,
+		xytick = {-10, ..., 10},
+		enlarge y limits = {upper, value = .05}
+	]{iLib_cor_species}
+	
+		\pggf_scatter()
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% enrichment by position
+	\coordinate[yshift = -\columnsep] (position) at (scheme |- xlabel.south);
+
+	\begin{pggfplot}[%
+		at = {(position)},
+		yshift = -.67cm,
+		total width = \textwidth,
+		xlabel = position,
+		ylabel = \enrichment,
+		title is csname,
+		title color from name,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east},
+		tight y,
+		xtick = {1, 300, 600, ..., 5000},
+		ytick = {-10, ..., 10},
+		col titles from table = {save = pggfcoltitles}
+	]{iLib_position}
+	
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_quiver(
+			color from col name,
+			quiver arrow
+		)
+	
+	\end{pggfplot}
+	
+	% invert list of coltitles
+	\def\pggftitlesinv{}
+	\expandafter\pgfplotsinvokeforeach\expandafter{\pggfcoltitles}{
+		\if\relax\pggftitlesinv\relax
+			\def\pggftitlesinv{#1}
+		\else
+			\preto\pggftitlesinv{#1,}
+		\fi
+	}
+	
+	% add coltitles
+	\coordinate[xshift = \groupplotsep] (title0) at (pggfplot c8r1.east |- position);
+	
+	\foreach \coltitle [count = \i, remember = \i as \lasti initially 0, evaluate = \i as \invi using int(9-\i), expand list] in {\pggftitlesinv} {
+		\ifnum\invi>1\relax
+			\distance{pggfplot c\invi r1.west}{pggfplot c\invi r1.east}
+		\else
+			\distance{pggfplot c\invi r1.west}{title\lasti.west}
+			\addtolength{\xdistance}{-\groupplotsep}
+		\fi
+		\node[anchor = north east, xshift = -\groupplotsep, draw, fill = \coltitle!20, outer sep = 0pt, text depth = .15\baselineskip, minimum width = \xdistance, font = \figlarge] (title\i) at (title\lasti.north west) {\vphantom{\usename{lambda-EXOB}}\usename{\coltitle}};
+		\begin{pgfonlayer}{background}
+			\draw[gray, top color = \coltitle!20, bottom color = white, thin, line join = bevel] (title\i.south west) -- (pggfplot c\invi r1.north west) -- (pggfplot c\invi r1.north east) -- (title\i.south east);
+		\end{pgfonlayer}
+	}
+	
+	
+	%%% iLib correlation GC
+	\coordinate[yshift = -\columnsep] (GC) at (scheme |- xlabel.south);
+	
+	\begin{pggfplot}[%
+		at = {(GC)},
+		total width = \twocolumnwidth,
+		xlabel = GC content,
+		ylabel = \enrichment,
+		title is csname,
+		title color from name
+	]{iLib_cor_GC}
+		
+		\pggf_annotate(zeroline)
+	
+		\pggf_hline()
+	
+		\pggf_scatter(
+			color from col name,
+			opacity = .5
+		)
+	
+		\pggf_stats(
+			stats = {n,spearman,rsquare},
+			text mark style = {
+				anchor = south west,
+				at = {(current axis.left of origin)}
+			},
+			only facets = 1
+		)
+		\pggf_stats(
+			stats = {n,spearman,rsquare},
+			only facets = 2
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% correlation across enhancers
+	\coordinate (enh cor) at (GC -| \textwidth - \twocolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(enh cor)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{\usename{AB80} or \usename{Cab-1}:} \enrichment},
+		ylabel = {\textbf{\usename{35S}:} \enrichment},
+		row title = 35S,
+		title is csname,
+		title color from name,
+		enlarge y limits = {upper, value = .1},
+		xytick = {-10, -9, ..., 10}
+	]{iLib_cor_enh}
+	
+		\pggf_scatter(
+			data = iLib_cor_enh_fragments,
+			color from col name,
+			opacity = .5
+		)
+		
+		\pggf_scatter(
+			data = iLib_cor_enh_control,
+			mark size = 2.5
+		)
+		
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+		\pggf_abline(gray, dashed)
+	
+	\end{pggfplot}
+	
+
+	%%% subfigure labels
+	\subfiglabel{scheme}
+	\subfiglabel{iLib}
+	\subfiglabel{species}
+	\subfiglabel{position}
+	\subfiglabel{GC}
+	\subfiglabel{enh cor}
+
+\end{tikzpicture}

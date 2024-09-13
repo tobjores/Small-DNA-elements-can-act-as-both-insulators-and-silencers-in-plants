@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+
+	%%% correlation iDE and iLib libraries
+	\coordinate (correlation) at (0, 0);
+	
+	\begin{pggfplot}[%
+		at = {(correlation)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{with downstream enhancer:} \enrichment},
+		ylabel = {\textbf{without downstream enhancer:}\\\enrichment},
+		title is csname,
+		title color from name,
+		ylabel add to width = \baselineskip,
+		xytick = {-10, ..., 10}
+	]{iDE_cor_iLib}
+	
+		\pggf_scatter(
+			data = iDE_cor_iLib_fragments,
+			color from col name,
+			opacity = .5
+		)
+		
+		\pggf_scatter(
+			data = iDE_cor_iLib_control,
+			mark size = 2.5
+		)
+		
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+		\pggf_abline(gray, dashed)
+	
+	\end{pggfplot}
+
+\end{tikzpicture}

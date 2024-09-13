@@ -1,0 +1,164 @@
+\begin{tikzpicture}
+
+	%%% dual-luciferase construct
+	\coordinate (DL construct) at (0, 0);
+	
+	\coordinate[shift = {(.2, -1.25)}] (construct) at (DL construct);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (Luc) at ($(construct) + (.2, 0)$) {Luc};
+	
+	\draw[line width = .2cm, DarkOliveGreen3] (Luc.east) ++(.3, 0) coordinate (c1) -- ++(.5, 0) coordinate[pos = .5] (pro1) coordinate (c2);
+	\draw[-{Stealth[round]}, thick] (c1) ++(-.5\pgflinewidth, 0) |- ++(-.35, .3);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (BlpR) at ($(c2) + (.2, 0)$) {B/H\textsuperscript{R}};
+	
+	\draw[line width = .2cm, PaleGreen3] (BlpR.east) ++(.35, 0) coordinate (c3) -- ++(.5, 0) coordinate (c4);
+	\draw[-{Stealth[round]}, thick] (c3) ++(-.5\pgflinewidth, 0) |- ++(-.35, .3);
+	
+	\fill[insulator] (c4) ++(.4, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer] (c4) ++(1, 0) -- ++(.6, 0) coordinate[pos = .5] (enh) coordinate (c5);
+	
+	\draw[line width = .2cm, 35Spromoter] (c5) ++(.1, 0) -- ++(.3, 0) coordinate[pos = .5] (pro2) coordinate (c6);
+	\draw[-{Stealth[round]}, thick] (c6) ++(.5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (NLuc) at ($(c6) + (.3, 0)$) {NanoLuc};
+	
+	\coordinate[xshift = .2cm] (construct end) at (NLuc.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct) -- (Luc.west);
+		\draw[thick] (Luc.east) -- (BlpR.west) (BlpR.east) -- (NLuc.west);
+		\draw[thick, -{Bar[width = .1cm]}] (NLuc.east) -- (construct end);
+	\end{pgfonlayer}
+	
+	\draw[Latex-] (ins) ++(0, .05) -- ++(0, .4) node[anchor = south, font = \bfseries] {insulator};
+	\draw[Latex-] (pro1) ++(0, -.15) -- ++(0, -.4) node[anchor = north] {\textit{AtUBQ10} promoter};
+	\draw[Latex-] (enh) ++(0, -.15) -- ++(-.3, -.4) coordinate (lenh);
+	\node[anchor = north, align = center, xshift = -.25cm] at (lenh) {enhancer:\\\textcolor{35S}{\bfseries\usename{35S}} or \textcolor{AB80}{\bfseries\usename{AB80}}};
+	\draw[Latex-] (pro2) ++(0, -.15) -- ++(.3, -.4) coordinate (lpro);
+	\node[anchor = north, align = center, xshift = .25cm] (l35Spr) at (lpro) {35S minimal\\promoter};
+
+	\draw[decorate, decoration = {brace, raise = -.15cm, amplitude = .4cm, aspect = .825}] (l35Spr.south -| construct end) -- (l35Spr.south -| construct) coordinate[pos = .825, yshift = -.25cm] (curly);
+	
+	\draw[ultra thick, -Latex] (curly) ++(0, .75\pgflinewidth) -- ++(0, -.3) arc[start angle = 180, end angle = 270, radius = .8cm] -- ++(.3, 0) coordinate (plants);
+	\planticon[scale = .66]{arabidopsis} at ($(plants) + (.7, 0)$);
+	\node [anchor = north east, align = center, inner xsep = 0pt] at (curly) {integrate\\into\\\Arabidopsis\\genome};
+	
+	\draw[ultra thick, -Latex] (plants) ++(1.4, 0) -- ++(.8, 0) node[anchor = west, align = center] {measure\\luciferase (Luc)\\and nanoluciferase\\(NanoLuc) activity};
+
+
+	%%% DL silencer constructs: boxplots
+	\coordinate[xshift = \columnsep] (boxplots) at (DL construct -| construct end);
+	
+	\distance{boxplots}{\textwidth, 0}
+	
+	\begin{pggfplot}[%
+		at = {(boxplots)},
+		total width = \xdistance,
+		ylabel = \dlratio,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east},
+		row title = Arabidopsis,
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+		tight y,
+		ylabel add to width = .5\baselineskip,
+	]{DL_sil}
+		
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+			outlier options = {opacity = .5},
+			outlier style from column = {xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% DL silencer constructs: correlation
+	\coordinate[yshift = -.5\columnsep] (correlation) at (DL construct |- pggfplot c1r1.below south);
+	
+	\begin{pggfplot}[%
+		at = {(correlation)},
+		total width = \twocolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} \dlratio,
+		row title = Arabidopsis/tobacco,
+		title is csname,
+		col title color from name,
+		row title style from name,
+		row title style = {shading angle = 0},
+		legend columns = 2,
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {empty legend, noEnh, empty legend, noIns, empty legend, lambda-EXOB, empty legend, BEAD-1C, UASrpg, sIns1, sIns2, gypsy}
+	]{DL_cor_sil}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = insulator,
+			y error = CI
+		)
+	
+		\pggf_annotate(
+			scatter legend*,
+			only facets = 2
+		)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% DL insulator vs. silencer
+	\coordinate[xshift = \columnsep] (IvS) at (pggfplot c2r1.outer north east);
+	
+	\begin{pggfplot}[%
+		at = {(IvS)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{\usename{insulator}:} \enrichment},
+		ylabel = {\textbf{\usename{silencer}:} \enrichment},
+		row title = Arabidopsis,
+		title is csname,
+		title color from name,
+		xytick = {-20, -18, ..., 20}
+	]{DL_IvS}
+	
+		\pggf_annotate(diagonal)
+	
+		\pggf_trendline(
+			thick,
+			solid
+		)
+	
+		\pggf_stats(
+			stats = {slope,goodness of fit},
+			position = south east
+		)
+	
+		\pggf_scatter(
+			mark size = 1.5,
+			color from col name
+		)
+	
+	\end{pggfplot}
+
+
+	%%% subfigure labels
+	\subfiglabel{DL construct}
+	\subfiglabel{boxplots}
+	\subfiglabel{correlation}
+	\subfiglabel{IvS}
+
+\end{tikzpicture}

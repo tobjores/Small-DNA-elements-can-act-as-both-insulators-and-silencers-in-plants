@@ -1,0 +1,168 @@
+\begin{tikzpicture}
+
+	%%% constructs
+	\coordinate (constructs) at (0, 0);
+	
+	% insulator construct
+	\coordinate[shift = {({.5 * (\fourcolumnwidth - 3.3cm)}, -1.5)}] (construct) at (constructs);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(construct) + (.2, 0)$) -- ++(.6, 0) coordinate[pos = .5] (enh);
+
+	\draw[Latex-] (enh) ++(0, -.15) -- ++(0, -.4) node[anchor = north, align = center, xshift = .35cm] (lenh) {8 different enhancers};
+
+	\fill[insulator] (construct) ++(.9, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+
+	\draw[line width = .2cm, 35Spromoter] (construct) ++(1.5, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35,.3);
+	
+	\node[draw = black, thin, anchor = west, minimum width = 1cm, outer xsep = 0pt] (GFP) at ($(pro) + (.45, 0)$) {GFP};
+	
+	\begin{pgfonlayer} {background}
+		\fill[Orchid1] (GFP.north west) ++(.15, 0) rectangle ($(GFP.south west) + (.05, 0)$);
+	\end{pgfonlayer}
+	
+	\coordinate[xshift = .2cm] (construct end) at (GFP.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct) -- (GFP.west);
+		\draw[thick, -{Bar[width = .1cm]}] (GFP.east) -- (construct end);
+	\end{pgfonlayer}
+	
+	
+	% silencer construct
+	\coordinate[yshift = -.55cm] (construct 2) at (construct |- lenh.south);
+
+	\fill[insulator] (construct 2) ++(.2, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(construct 2) + (.8, 0)$) -- ++(.6, 0) coordinate[pos = .5] (enh);
+	
+	\draw[Latex-] (enh) ++(0, .15) -- (lenh.south -| enh);
+
+	\draw[line width = .2cm, 35Spromoter] (construct 2) ++(1.5, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35,.3);
+	
+	\node[draw = black, thin, anchor = west, minimum width = 1cm, outer xsep = 0pt] (GFP) at ($(pro) + (.45, 0)$) {GFP};
+	
+	\begin{pgfonlayer} {background}
+		\fill[MediumPurple2] (GFP.north west) ++(.15, 0) rectangle ($(GFP.south west) + (.05, 0)$);
+	\end{pgfonlayer}
+	
+	\coordinate[xshift = .2cm] (construct 2 end) at (GFP.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct 2) -- (GFP.west);
+		\draw[thick, -{Bar[width = .1cm]}] (GFP.east) -- (construct 2 end);
+	\end{pgfonlayer}
+	
+	% names
+	\node[anchor = south, node font = \figlarge\bfseries, shift = {(.5\fourcolumnwidth, \columnsep)}] at (constructs |- construct) {insulator construct};
+	\node[anchor = north, node font = \figlarge\bfseries, shift = {(.5\fourcolumnwidth, -\columnsep)}] at (constructs |- construct 2) {silencer construct};
+	
+	
+	%%% enhancers
+	\coordinate (enhancers) at (constructs -| \textwidth - \threequartercolumnwidth, 0);
+	
+	% redefine AB80/Cab-1 colors and define names/colors for additional enhancers
+	\newcommand{\defenhancer}[2]{%
+		\expandafter\def\csname#1\endcsname{#1\xspace}%
+		\colorlet{#1}{#2}%
+	}
+	
+	\defenhancer{Sl-774}{none!82.5!35S}
+	\defenhancer{Zm-23177}{none!75!35S}
+	\defenhancer{Sb-11289}{none!62.5!35S}
+	\colorlet{AB80}{none!50!35S}
+	\colorlet{Cab-1}{none!37.5!35S}
+	\defenhancer{Sl-12881}{none!25!35S}
+	\defenhancer{At-9661}{none!12.5!35S}
+	
+	% plot
+	\begin{pggfplot}[%
+		at = {(enhancers)},
+		total width = \textwidth - \fourcolumnwidth - \threecolumnwidth - 2\columnsep,
+		ylabel = \enrichment,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{35S}}, rotate = 45, anchor = north east},
+		tight y,
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+	]{ExI_enhancers}
+	
+		\pggf_annotate(zeroline)
+	
+		\pggf_boxplot(
+			style from column = {fill* = xticklabels},
+			outlier options = {opacity = .5},
+			outlier style from column = {xticklabels}
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% insulator vs silencer
+	\coordinate[yshift = -\columnsep] (IvS) at (constructs |- xlabel.north);
+	
+	\begin{pggfplot}[%
+		at = {(IvS)},
+		total width = \textwidth,
+		xlabel = {\textbf{\usename{insulator}:} \enrichment},
+		ylabel = {\textbf{\usename{silencer}:} \enrichment},
+		title is csname,
+		title color from name,
+	]{ExI_IvS}
+	
+		\pggf_annotate(diagonal)
+	
+		\pggf_trendline(
+			thick,
+			solid
+		)
+	
+		\pggf_stats(
+			stats = {slope,goodness of fit},
+			position = south east
+		)
+	
+		\pggf_scatter(
+			mark size = 1.5,
+			color from col name
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% correlation between slope and enhancer strength
+	\coordinate (cor slope) at (constructs -| \textwidth - \threecolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(cor slope)},
+		total width = \threecolumnwidth,
+		xlabel = slope of regression line,
+		ylabel = \enrichment,
+		title is csname,
+		title color from name,
+	]{ExI_cor_slope}
+	
+		\pggf_trendline()
+	
+		\pggf_stats(
+			stats = {n,spearman,rsquare},
+			position = south west
+		)
+	
+		\pggf_scatter(
+			mark size = 1.5,
+			color from col name
+		)
+	
+	\end{pggfplot}
+	
+
+	%%% subfigure labels
+	\subfiglabel{constructs}
+	\subfiglabel{enhancers}
+	\subfiglabel{IvS}
+	\subfiglabel{cor slope}
+
+\end{tikzpicture}

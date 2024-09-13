@@ -1,0 +1,328 @@
+\begin{tikzpicture}
+
+	%%% constructs
+	\coordinate (constructs) at (0, 0);
+	
+	% single insulator
+	\node[anchor = west, text depth = 0pt, node font = \figlarge\bfseries, shift = {(\columnsep, -.5cm)}] (c1l) at (constructs) {single};
+		
+	\coordinate (construct 1) at (c1l.east);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(construct 1) + (.2, 0)$) -- ++(.6, 0) coordinate[pos = .5] (enh);
+
+	\fill[insulator] (construct 1) ++(.9, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+
+	\draw[line width = .2cm, 35Spromoter] (construct 1) ++(1.5, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, minimum width = 1cm, outer xsep = 0pt] (GFP) at ($(pro) + (.45, 0)$) {GFP};
+	
+	\begin{pgfonlayer} {background}
+		\fill[Orchid1] (GFP.north west) ++(.15, 0) rectangle ($(GFP.south west) + (.05, 0)$);
+	\end{pgfonlayer}
+	
+	\coordinate[xshift = .2cm] (construct 1 end) at (GFP.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct 1) -- (GFP.west);
+		\draw[thick, -{Bar[width = .1cm]}] (GFP.east) -- (construct 1 end);
+	\end{pgfonlayer}
+	
+	% double insulator
+	\node[anchor = west, text depth = 0pt, node font = \figlarge\bfseries, xshift = 3\columnsep] (c2l) at (construct 1 end) {double};
+	
+	\coordinate (construct 2) at (c2l.east);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(construct 2) + (.2, 0)$) -- ++(.6, 0) coordinate[pos = .5] (enh);
+
+	\fill[insulator] (construct 2) ++(.9, -.2) -- ++(60:.5) coordinate (ins1) -- ++(-60:.5) -- cycle;
+	\fill[insulator] (construct 2) ++(1.5, -.2) -- ++(60:.5) coordinate (ins2) -- ++(-60:.5) -- cycle;
+
+	\draw[line width = .2cm, 35Spromoter] (construct 2) ++(2.1, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, minimum width = 1cm, outer xsep = 0pt] (GFP) at ($(pro) + (.45, 0)$) {GFP};
+	
+	\begin{pgfonlayer} {background}
+		\fill[MediumPurple2] (GFP.north west) ++(.15, 0) rectangle ($(GFP.south west) + (.05, 0)$);
+	\end{pgfonlayer}
+	
+	\coordinate[xshift = .2cm] (construct 2 end) at (GFP.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct 2) -- (GFP.west);
+		\draw[thick, -{Bar[width = .1cm]}] (GFP.east) -- (construct 2 end);
+	\end{pgfonlayer}
+	
+	% triple insulator
+	\node[anchor = west, text depth = 0pt, node font = \figlarge\bfseries, xshift = 3\columnsep] (c3l) at (construct 2 end) {triple};
+	
+	\coordinate (construct 3) at (c3l.east);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(construct 3) + (.2, 0)$) -- ++(.6, 0) coordinate[pos = .5] (enh);
+
+	\fill[insulator!50] (construct 3) ++(.9, -.2) -- ++(60:.5) coordinate (ins1) -- ++(-60:.5) -- cycle;
+	\fill[insulator] (construct 3) ++(1.5, -.2) -- ++(60:.5) coordinate (ins2) -- ++(-60:.5) -- cycle;
+	\fill[insulator] (construct 3) ++(2.1, -.2) -- ++(60:.5) coordinate (ins3) -- ++(-60:.5) -- cycle;
+
+	\draw[line width = .2cm, 35Spromoter] (construct 3) ++(2.7, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, minimum width = 1cm, outer xsep = 0pt] (GFP) at ($(pro) + (.45, 0)$) {GFP};
+	
+	\begin{pgfonlayer} {background}
+		\fill[HotPink1] (GFP.north west) ++(.15, 0) rectangle ($(GFP.south west) + (.05, 0)$);
+	\end{pgfonlayer}
+	
+	\coordinate[xshift = .2cm] (construct 3 end) at (GFP.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct 3) -- (GFP.west);
+		\draw[thick, -{Bar[width = .1cm]}] (GFP.east) -- (construct 3 end);
+	\end{pgfonlayer}
+	
+	
+	% legend
+	\coordinate[yshift = -1.2cm] (legend) at (constructs);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  ($(legend) + (.3, 0)$) -- ++(.6, 0);
+	\node[anchor = west, text depth = 0pt, xshift = .9cm] (enh label) at (legend) {35S enhancer};
+	
+	\draw[line width = .2cm, 35Spromoter] (enh label.east) ++(\columnsep, 0) -- ++(.3, 0);
+	\node[anchor = west, text depth = 0pt, xshift = \columnsep + .3cm] (pro label) at (enh label.east) {35S minimal promoter};
+	
+	\fill[insulator] (pro label.east) ++(\columnsep, -.2) -- ++(60:.5) coordinate (ins2) -- ++(-60:.5) -- cycle;
+	\node[anchor = west, text depth = 0pt, xshift = \columnsep + .5cm] (ins label) at (pro label.east) {32 insulator fragments in either orientation};
+	
+	\fill[insulator!50] (ins label.east) ++(\columnsep, -.2) -- ++(60:.5) coordinate (ins2) -- ++(-60:.5) -- cycle;
+	\node[anchor = west, text depth = 0pt, xshift = \columnsep + .5cm] (ins label 2) at (ins label.east) {5 strong insulator fragments in fixed orientation};
+	
+	
+	%%% iFC enrichment
+	\coordinate[yshift = -.2cm - \columnsep] (iFC) at (constructs |- legend);
+	
+	\begin{pggfplot}[%
+		at = {(iFC)},
+		total width = \threecolumnwidth,
+		xlabel = number of insulator fragments,
+		ylabel = \enrichment,
+		enlarge y limits = {lower, value = 0.1},
+		title is csname,
+		title color from name
+	]{iFC_enrichment}
+	
+		\pggf_annotate(zeroline)
+	
+		\pggf_hline()
+	
+		\pggf_violin(
+			color from col name,
+			shade = left
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% iFC prediction
+	\coordinate (prediction) at (iFC -| \textwidth - \twothirdcolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(prediction)},
+		total width = \textwidth - \threecolumnwidth - \fourcolumnwidth - 2\columnsep,
+		xlabel = {\textbf{prediction:} \enrichment},
+		ylabel = {\textbf{measurement:} \enrichment},
+		col title is csname,
+		col title color from name,
+		xytick = {-10, -8, ..., 10},
+		facet 2/.append style = {pggf colorbar = {log2}},
+	]{iFC_cor_prediction}
+	
+		\pggf_annotate(diagonal)
+	
+		\pggf_hexbin(bins = 50)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% iFC model coefficients
+	\coordinate (coefficients) at (iFC -| \textwidth - \fourcolumnwidth, 0);
+	
+	% construct
+	\coordinate[xshift = -3.4cm] (construct) at (xlabel -| \textwidth, 0);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer]  (construct) ++(.2, 0) -- ++(.6, 0) coordinate[pos = .5] (enh);
+
+	\fill[insulator!50] (construct) ++(.9, -.2) -- ++(60:.5) coordinate (ins1) -- ++(-60:.5) -- cycle;
+	\fill[insulator] (construct) ++(1.5, -.2) -- ++(60:.5) coordinate (ins2) -- ++(-60:.5) -- cycle;
+	\fill[insulator] (construct) ++(2.1, -.2) -- ++(60:.5) coordinate (ins3) -- ++(-60:.5) -- cycle;
+
+	\draw[line width = .2cm, 35Spromoter] (construct) ++(2.7, 0) -- ++(.3, 0) coordinate[pos = .5] (pro);
+	\draw[-{Stealth[round]}, semithick] (pro) ++(.15cm + .5\pgflinewidth, 0) |- ++(.35,.3);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct) -- ++(3, 0);
+		\draw[thick, dashed] (construct) ++(3, 0) -- ++(.4, 0); 
+	\end{pgfonlayer}
+	
+	% plot
+	\begin{pggfplot}[%
+		at = {(coefficients)},
+		total width = \fourcolumnwidth,
+		ylabel = coefficient,
+		ylabel add to width = .5\baselineskip,
+		xticklabel = \empty,
+		col title = linear model,
+		ymin = 0,
+		legend style = {
+			at = {(0, 1)},
+			anchor = north west,
+			cells = {align = left}
+		},
+		legend cell align = left,
+		legend plot pos = left,
+	]{iFC_model_coef}
+	
+		\pggf_bar(
+			ybar,
+			style from column = {fill = group}
+		)
+		
+		\pggf_annotate(
+			annotation = {
+				\coordinate (c1) at (1, 0);
+				\coordinate (c2) at (2, 0);
+				\coordinate (c3) at (3, 0);
+			}
+		)
+	
+	\end{pggfplot}
+	
+	% connect construct to plot
+	\begin{pgfonlayer} {background}
+		\foreach \x in {1, ..., 3}{
+			\draw[gray, line cap = round] (c\x) ++(0, -\groupplotsep) to[out = -90, in = 90] (ins\x);
+		}
+	\end{pgfonlayer}
+
+
+	%%% stable maize lines: ELISA
+	\coordinate[yshift = -\columnsep - .2cm] (ELISA) at (constructs |- construct);
+	
+	\begin{pggfplot}[%
+		at = {(ELISA)},
+		total width = 1.1\threecolumnwidth,
+		ylabel = ELISA (ppm/TP),
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east, align = right},
+		col title = maize (R1 leaf),
+		col title color = maize,
+		enlarge y limits = {lower, value = 0.1},
+		tight y,
+	]{ELISA_stacked_R1_leaf}
+	
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% stable ELISA lines: correlation with Plant STARR-seq
+	\coordinate[xshift = \columnsep] (ELISA cor) at (pggfplot c1r1.outer north east);
+	
+	\begin{pggfplot}[%
+		at = {(ELISA cor)},
+		total width = .9\threecolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} ELISA (ppm/TP),
+		ylabel style = {xshift = -.5em},
+		col title = maize/maize,
+		title is csname,
+		col title style from name,
+		legend columns = 3,
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east
+		},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {noEnh,noIns,D2,T30,T21,T27,T32,T24,T25,T19,T9}
+	]{ELISA_stacked_cor_R1_leaf}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = short_id,
+			y error = CI
+		)
+		
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(
+			stats = {n,spearman,rsquare},
+			text mark style = {
+				anchor = north east,
+				at = (current axis.north east),
+				xshift = -1.5\baselineskip
+			}
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% stable maize lines: correlation
+	\coordinate[xshift = \columnsep] (tissues) at (pggfplot c1r1.outer north east);
+	
+	\distance{pggfplot c1r1.south}{pggfplot c1r1.above north}
+	
+	\begin{pggfplot}[%
+		at = {(pggfplot c1r1.above north -| \textwidth, 0)},
+		anchor = north east,
+		total width = \threecolumnwidth,
+		height = \ydistance,
+		ylabel add to width = 32pt,
+		ticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east, align = right},
+		colormap={whiteblue}{color(0cm)=(white); color(1cm)=(RoyalBlue1)},
+		facet 1/.append style = {
+			pggf colorbar = {%
+				title = {correlation ($R^2$)},
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision = 1,
+				at = {(1, .975)},
+				anchor = north east,
+			}
+		},
+		point meta min = 0,
+		point meta max = 1,
+		axis x line = bottom,
+		axis y line = left,
+		tight y
+	]{ELISA_stacked_tissues}
+	
+		\pggf_heatmap(
+			border,
+			nodes near coords = {\pgfmathfloatifflags{\pgfplotspointmeta}{3}{}{\pgfmathprintnumber[fixed, fixed zerofill, precision = 2]{\pgfplotspointmeta}}},
+			nodes near coords style = {anchor = center, font = \figsmall}
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% subfigure labels
+	\subfiglabel{constructs}
+	\subfiglabel{iFC}
+	\subfiglabel{prediction}
+	\subfiglabel{coefficients}
+	\subfiglabel{ELISA}
+	\subfiglabel{ELISA cor}
+	\subfiglabel{tissues}
+
+\end{tikzpicture}

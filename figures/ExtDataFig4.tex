@@ -1,0 +1,80 @@
+\begin{tikzpicture}
+
+	%%% maize ELISA frags: boxplots
+	\coordinate (ELISA) at (0, 0);
+	
+	\begin{pggfplot}[%
+		at = {(ELISA)},
+		total width = \twocolumnwidth,
+		ylabel = ELISA (ppm/TP),
+		ylabel style = {yshift = .5\baselineskip},
+		ylabel add to width = \baselineskip,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east, align = right},
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+		tight y,
+	]{ELISA_stacked_samples}
+	
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% maize ELISA frags: correlation
+	\coordinate (cor) at (ELISA -| \textwidth - \twocolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(cor)},
+		total width = \threecolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} ELISA (ppm/TP),
+		ylabel style = {yshift = .5\baselineskip},
+		ylabel add to width = \baselineskip,
+		title is csname,
+		title color from name,
+		legend columns = 1,
+		legend style = {
+			at = {(1, 1)},
+			anchor = west,
+			cells = {align = right},
+			shift = {(2\baselineskip, .5\groupplotsep)}
+		},
+		legend cell align = left,
+		legend plot pos = left,
+		scatter styles = {noEnh,noIns,D2,T30,T21,T27,T32,T24,T25,T19,T9}
+	]{ELISA_stacked_cor_samples}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = short_id,
+			y error = CI
+		)
+		
+		\pggf_annotate(
+			scatter legend*,
+			only facets = 3
+		)
+	
+		\pggf_stats(
+			stats = {n,spearman,rsquare},
+			position = south east
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% subfigure labels
+	\subfiglabel{ELISA}
+	\subfiglabel{cor}
+
+\end{tikzpicture}

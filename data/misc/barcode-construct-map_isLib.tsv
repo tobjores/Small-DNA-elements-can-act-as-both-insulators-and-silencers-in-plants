@@ -1,0 +1,5 @@
+barcode	construct	orientation
+GACAGA	insulator	fwd
+CGACAA	insulator	rev
+AAAGCC	silencer	fwd
+AAGAGC	silencer	rev

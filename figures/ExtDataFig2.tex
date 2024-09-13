@@ -1,0 +1,220 @@
+\begin{tikzpicture}
+	
+	%%% replicate correlation FLins library
+	\coordinate (FLins) at (0, 0);
+	
+	\begin{pggfplot}[%
+		at = {(FLins)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{replicate 1:} \enrichment},
+		ylabel = {\textbf{replicate 2:} \enrichment},
+		col title is csname,
+		col title color from name,
+		row title = full-length insulator library,
+		xytick = {-10, -8, ..., 10},
+		legend columns = 2,
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend image post style = {fill opacity = 1},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {empty legend, noEnh, empty legend, noIns, lambda-EXOB, BEAD-1C, UASrpg, sIns1, sIns2, gypsy}
+	]{FLins_cor_rep}
+	
+		\pggf_annotate(diagonal)
+		
+		\pggf_scatter(
+			fill opacity = .5,
+			style from column = insulator,
+		)
+		
+		\pggf_annotate(only facets = 2, scatter legend*)
+			
+		\pggf_stats(stats = {n,spearman,rsquare})
+		
+	\end{pggfplot}
+	
+	
+	%%% replicate correlation iLib
+	\coordinate (iLib) at (FLins -| \textwidth - \twocolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(iLib)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{replicate 1:} \enrichment},
+		ylabel = {\textbf{replicate 2:} \enrichment},
+		col title is csname,
+		col title color from name,
+		row title = insulator fragment library,
+		xytick = {-10, -8, ..., 10},
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend image post style = {fill opacity = 1},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {none,35S,AB80,Cab-1}
+	]{iLib_cor_rep}
+	
+		\pggf_annotate(diagonal)
+	
+		\pggf_scatter(
+			fill opacity = .5,
+			style from column = enhancer,
+		)
+	
+		\pggf_annotate(only facets = 1, scatter legend*)
+		\pggf_annotate(only facets = 2, legend = {\usename{none}, \usename{35S}})
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% replicate correlation iFC
+	\coordinate[yshift = -\columnsep] (iFC) at (FLins |- xlabel.south);
+	
+	\begin{pggfplot}[%
+		at = {(iFC)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{replicate 1:} \enrichment},
+		ylabel = {\textbf{replicate 2:} \enrichment},
+		col title is csname,
+		col title color from name,
+		row title = {fragment combinations lib.},
+		xytick = {-10, -8, ..., 10},
+		facet 2/.append style = {pggf colorbar = {title = count, log2}}
+	]{iFC_cor_rep}
+	
+		\pggf_annotate(diagonal)
+	
+		\pggf_hexbin(bins = 50)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% replicate correlation iDE
+	\coordinate (iDE) at (iFC -| \textwidth - \twocolumnwidth, 0);
+	
+	\distance{pggfplot c1r1.west}{pggfplot c1r1.east}
+	
+	\begin{pggfplot}[%
+		at = {(iDE)},
+		width = \xdistance,
+		xlabel = {\textbf{replicate 1:} \enrichment},
+		ylabel = {\textbf{replicate 2:} \enrichment},
+		col title is csname,
+		col title color from name,
+		col title = tobacco,
+		row title = downstream enhancer lib.,
+		xytick = {-10, -8, ..., 10},
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend image post style = {fill opacity = 1},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {none,35S}
+	]{iDE_cor_rep}
+	
+		\pggf_annotate(diagonal)
+		
+		\pggf_scatter(
+			fill opacity = .5,
+			style from column = enh_up
+		)
+	
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% replicate correlation i/sLib
+	\coordinate[yshift = -\columnsep] (i/sLib) at (FLins |- xlabel.south);
+	
+	\begin{pggfplot}[%
+		at = {(i/sLib)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{replicate 1:} \enrichment},
+		ylabel = {\textbf{replicate 2:} \enrichment},
+		col title is csname,
+		col title color from name,
+		row title = insulator/silencer library,
+		xytick = {-10, -8, ..., 10},
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend image post style = {fill opacity = 1},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {insulator,silencer}
+	]{isLib_cor_rep}
+	
+		\pggf_annotate(diagonal)
+		
+		\pggf_scatter(
+			fill opacity = .5,
+			style from column = construct
+		)
+	
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% replicate correlation ExI
+	\coordinate (ExI) at (i/sLib -| \textwidth - \twocolumnwidth, 0);
+	
+	\begin{pggfplot}[%
+		at = {(ExI)},
+		total width = \twocolumnwidth,
+		xlabel = {\textbf{replicate 1:} \enrichment},
+		ylabel = {\textbf{replicate 2:} \enrichment},
+		col title is csname,
+		col title color from name,
+		row title = enhancer-insulator combi,
+		xytick = {-10, -8, ..., 10},
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend image post style = {fill opacity = 1},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {insulator,silencer}
+	]{ExI_cor_rep}
+	
+		\pggf_annotate(diagonal)
+		
+		\pggf_scatter(
+			fill opacity = .5,
+			style from column = construct
+		)
+	
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% subfigure labels
+	\subfiglabel{FLins}
+	\subfiglabel{iLib}
+	\subfiglabel{iFC}
+	\subfiglabel{iDE}
+	\subfiglabel{i/sLib}
+	\subfiglabel{ExI}
+	
+\end{tikzpicture}

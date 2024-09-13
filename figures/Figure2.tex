@@ -1,0 +1,424 @@
+\begin{tikzpicture}
+
+	\pggfset{ylabel add to width = 3pt}
+	
+	%%% dual-luciferase construct
+	\coordinate (DL construct) at (0, 0);
+	
+	\coordinate[shift = {(.2, -1.25)}] (construct) at (DL construct);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (Luc) at ($(construct) + (.2, 0)$) {Luc};
+	
+	\draw[line width = .2cm, DarkOliveGreen3] (Luc.east) ++(.3, 0) coordinate (c1) -- ++(.5, 0) coordinate[pos = .5] (pro1) coordinate (c2);
+	\draw[-{Stealth[round]}, thick] (c1) ++(-.5\pgflinewidth, 0) |- ++(-.35, .3);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (BlpR) at ($(c2) + (.2, 0)$) {B/H\textsuperscript{R}};
+	
+	\draw[line width = .2cm, PaleGreen3] (BlpR.east) ++(.35, 0) coordinate (c3) -- ++(.5, 0) coordinate (c4);
+	\draw[-{Stealth[round]}, thick] (c3) ++(-.5\pgflinewidth, 0) |- ++(-.35, .3);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer] (c4) ++(.4, 0) -- ++(.6, 0) coordinate[pos = .5] (enh) coordinate (c5);
+	
+	\fill[insulator] (c5) ++(.1, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+	
+	\draw[line width = .2cm, 35Spromoter] (c5) ++(.7, 0) -- ++(.3, 0) coordinate[pos = .5] (pro2) coordinate (c6);
+	\draw[-{Stealth[round]}, thick] (c6) ++(.5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (NLuc) at ($(c6) + (.3, 0)$) {NanoLuc};
+	
+	\coordinate[xshift = .2cm] (construct end) at (NLuc.east);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, {Bar[width = .1cm]}-] (construct) -- (Luc.west);
+		\draw[thick] (Luc.east) -- (BlpR.west) (BlpR.east) -- (NLuc.west);
+		\draw[thick, -{Bar[width = .1cm]}] (NLuc.east) -- (construct end);
+	\end{pgfonlayer}
+	
+	\draw[Latex-] (ins) ++(0, .05) -- ++(0, .4) node[anchor = south, font = \bfseries] {insulator};
+	\draw[Latex-] (pro1) ++(0, -.15) -- ++(0, -.4) node[anchor = north] {\textit{AtUBQ10} promoter};
+	\draw[Latex-] (enh) ++(0, -.15) -- ++(-.3, -.4) node[anchor = north, align = center] {enhancer:\\\textcolor{35S}{\bfseries\usename{35S}} or \textcolor{AB80}{\bfseries\usename{AB80}}};
+	\draw[Latex-] (pro2) ++(0, -.15) -- ++(.2, -.4) node[anchor = north, align = center] (l35Spr) {35S minimal\\promoter};
+
+	\draw[decorate, decoration = {brace, raise = -.15cm, amplitude = .4cm, aspect = .825}] (l35Spr.south -| construct end) -- (l35Spr.south -| construct) coordinate[pos = .825, yshift = -.25cm] (curly);
+	
+	\draw[ultra thick, -Latex] (curly) ++(0, .75\pgflinewidth) -- ++(0, -.3) arc[start angle = 180, end angle = 270, radius = .8cm] -- ++(.3, 0) coordinate (plants);
+	\planticon[scale = .55]{rice} at ($(plants) + (.7, .4)$);
+	\planticon[scale = .55]{arabidopsis} at ($(plants) + (.9, -.4)$);
+	\node [anchor = north east, align = center, inner xsep = 0pt] at (curly) {integrate\\into\\\rice or\\\Arabidopsis\\genome};
+	
+	\draw[ultra thick, -Latex] (plants) ++(1.4, 0) -- ++(.8, 0) node[anchor = west, align = center] {measure\\luciferase (Luc)\\and nanoluciferase\\(NanoLuc) activity};
+	
+	
+	%%% Arabidopsis DL FLins: boxplots
+	\coordinate[xshift = \columnsep] (FLins Arabidopsis) at (DL construct -| construct end);
+	
+	\distance{FLins Arabidopsis}{\textwidth, 0}
+	
+	\begin{pggfplot}[%
+		at = {(FLins Arabidopsis)},
+		total width = \xdistance,
+		ylabel = \dlratio,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east},
+		row title = Arabidopsis,
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+		tight y,
+		ylabel add to width = .5\baselineskip,
+	]{DL_FLins_Arabidopsis}
+		
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+			outlier options = {opacity = .5},
+			outlier style from column = {xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% Arabidopsis DL FLins: correlation
+	\coordinate[yshift = -.5\columnsep] (cor FLins Arabidopsis) at (DL construct |- pggfplot c1r1.below south);
+	
+	\begin{pggfplot}[%
+		at = {(cor FLins Arabidopsis)},
+		total width = \twocolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} \dlratio,
+		row title = Arabidopsis/tobacco,
+		title is csname,
+		col title color from name,
+		row title style from name,
+		row title style = {shading angle = 0},
+		legend columns = 2,
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {empty legend, noEnh, empty legend, noIns, empty legend, lambda-EXOB, empty legend, BEAD-1C, UASrpg, sIns1, sIns2, gypsy}
+	]{DL_cor_Flins_Arabidopsis}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = insulator,
+			y error = CI
+		)
+	
+		\pggf_annotate(
+			scatter legend*,
+			only facets = 2
+		)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% rice DL FLins: boxplots
+	\coordinate[xshift = \columnsep] (FLins rice) at (pggfplot c2r1.outer north east);
+	
+	\begin{pggfplot}[%
+		at = {(FLins rice)},
+		total width = .9\fourcolumnwidth,
+		ylabel = \dlratio,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{sIns1}}, rotate = 45, anchor = north east},
+		col title = 35S,
+		row title = rice,
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+		tight y
+	]{DL_FLins_rice}
+		
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+			outlier options = {opacity = .5},
+			outlier style from column = {xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% rice DL FLins: correlation
+	\coordinate[xshift = \columnsep] (cor FLins rice) at (pggfplot c1r1.outer north east);
+	
+	\begin{pggfplot}[%
+		at = {(cor FLins rice)},
+		total width = 1.1\fourcolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} \dlratio,
+		xlabel style = {xshift = -1.5pt},
+		col title = 35S,
+		row title = rice/maize,
+		title is csname,
+		col title color from name,
+		row title style from name,
+		row title style = {shading angle = 0},
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+		},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {noEnh, noIns, sIns1, sIns2}
+	]{DL_cor_Flins_rice}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = insulator,
+			y error = CI
+		)
+	
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% Arabidopsis DL frags: boxplots
+	\coordinate[yshift = -\columnsep] (frags Arabidopsis) at (DL construct |- pggfplot c1r1.below south);
+	
+	\begin{pggfplot}[%
+		at = {(frags Arabidopsis)},
+		total width = 1.1\threecolumnwidth,
+		ylabel = \dlratio,
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east, align = right},
+		col title = 35S,
+		row title = Arabidopsis,
+		title is csname,
+		title color from name,
+		enlarge y limits = {lower, value = 0.1},
+		tight y,
+	]{DL_frags_Arabidopsis}
+	
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+			outlier options = {opacity = .5},
+			outlier style from column = {xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% Arabidopsis DL frags: correlation
+	\coordinate[xshift = \columnsep] (cor frags Arabidopsis) at (pggfplot c1r1.outer north east);
+	
+	\begin{pggfplot}[%
+		at = {(cor frags Arabidopsis)},
+		total width = .9\threecolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} \dlratio,
+		ylabel style = {xshift = -.5em},
+		col title = 35S,
+		row title = Arabidopsis/tobacco,
+		title is csname,
+		col title color from name,
+		row title style from name,
+		enlarge y limits = {upper, value = .1},
+		legend columns = 2,
+		legend style = {
+			at = {(0, 1)},
+			anchor = north west,
+			cells = {align = left}
+		},
+		legend cell align = left,
+		legend plot pos = left,
+		scatter styles = {noEnh,noIns,beta-phaseolin_1395_1564,TBS_756_925,lambda-EXOB_1_170,BEAD-1C_246_415,UASrpg_1_170,empty legend,gypsy_54_223,empty legend}
+	]{DL_cor_frags_Arabidopsis}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = insulator,
+			y error = CI
+		)
+		
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(stats = {n,spearman,rsquare}, position = south east)
+	
+	\end{pggfplot}
+	
+	
+	%%% ELISA construct
+	\coordinate[xshift = \columnsep] (ELISA construct) at (pggfplot c1r1.outer north east);
+	
+	\coordinate[shift = {(.2, -1.25)}] (construct) at (ELISA construct);
+	\coordinate[xshift = .5cm] (c1) at (construct);
+	
+	\draw[line width = .2cm, -Triangle Cap, 35Senhancer] (c1) ++(.2, 0) -- ++(.6, 0) coordinate[pos = .5] (enh) coordinate (c2);
+	
+	\fill[insulator] (c2) ++(.1, -.2) -- ++(60:.5) coordinate (ins) -- ++(-60:.5) -- cycle;
+	
+	\draw[line width = .2cm, OliveDrab3] (c2) ++(.7, 0) -- ++(.5, 0) coordinate[pos = .5] (pro) coordinate (c3);
+	\draw[-{Stealth[round]}, thick] (c3) ++(.5\pgflinewidth, 0) |- ++(.35, .3);
+	
+	\node[draw = black, thin, anchor = west, text depth = 0pt] (rep) at ($(c3) + (.3, 0)$) {reporter};
+	
+	\coordinate[xshift = .2cm] (c4) at (rep.east);
+	\coordinate[xshift = .5cm] (construct end) at (c4);
+	
+	\begin{pgfonlayer} {background}
+		\draw[thick, dashed] (construct) -- (c1);
+		\draw[thick] (c1) -- (rep.west) (rep.east) -- (c4);
+		\draw[thick, dashed] (c4) -- (construct end);
+	\end{pgfonlayer}
+	
+	\draw[Latex-] (ins) ++(0, .05) -- ++(0, .4) node[anchor = south, font = \bfseries] {insulator};
+	\draw[Latex-] (enh) ++(0, -.15) -- ++(0, -.4) node[anchor = north] {35S enhancer};
+	\draw[Latex-] (pro) ++(0, -.15) -- ++(.3, -.4) node[anchor = north] (lpro) {ZmPro};
+	
+	\draw[decorate, decoration = {brace, raise = -.15cm, amplitude = .4cm, aspect = .9}] (lpro.south -| construct end) -- (lpro.south -| construct) coordinate[pos = .9, yshift = -.25cm] (curly);
+	
+	\draw[ultra thick, -Latex] (curly) ++(0, .75\pgflinewidth) -- ++(0, -.4) arc[start angle = 180, end angle = 270, radius = .8cm] -- ++(.5, 0) coordinate[yshift = .1cm] (maize);
+	\planticon[scale = .45]{maize} at ($(maize) + (.45, -.15)$);
+	\node [anchor = north west, align = center, shift = {(.1, .15)}] at (curly) {site-directed\\integration into\\\maize genome};
+	
+	\draw[ultra thick, -Latex] (maize) ++(1, -.1) -- ++(.8, 0) node[anchor = west, align = center] {measure\\reporter gene\\expression with\\ELISA};
+
+	
+	%%% maize ELISA frags: boxplots
+	\coordinate[yshift = -1.5\columnsep] (frags maize) at (DL construct |- pggfplot c1r1.below south);
+	
+	\begin{pggfplot}[%
+		at = {(frags maize)},
+		total width = 1.1\threecolumnwidth,
+		ylabel = ELISA (ppm/TP),
+		xticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east, align = right},
+		col title = 35S,
+		row title = maize (R1 leaf),
+		col title is csname,
+		col title color from name,
+		row title color = maize,
+		enlarge y limits = {lower, value = 0.1},
+		tight y,
+	]{ELISA_R1_leaf}
+	
+		\pggf_annotate(zeroline)
+		
+		\pggf_hline()
+	
+		\pggf_boxplot(
+			style from column = {fill = xticklabels},
+		)
+	
+	\end{pggfplot}
+	
+	
+	%%% maize ELISA frags: correlation
+	\coordinate[xshift = \columnsep] (cor frags maize) at (pggfplot c1r1.outer north east);
+	
+	\begin{pggfplot}[%
+		at = {(cor frags maize)},
+		total width = .9\threecolumnwidth,
+		xlabel = \textbf{Plant STARR-seq:} \enrichment,
+		ylabel = \textbf{stable lines:} ELISA (ppm/TP),
+		ylabel style = {xshift = -.5em},
+		col title = 35S,
+		row title = maize/maize,
+		title is csname,
+		col title color from name,
+		row title style from name,
+		enlarge y limits = {lower, value = .3},
+		legend columns = 2,
+		legend style = {
+			at = {(1, 0)},
+			anchor = south east,
+			cells = {align = left}
+		},
+		legend cell align = right,
+		legend plot pos = right,
+		scatter styles = {empty legend,noEnh,empty legend,noIns,beta-phaseolin_781_612,beta-phaseolin_1395_1564,beta-phaseolin_2356_2187,TBS_588_757,lambda-EXOB_666_497,sIns2_335_504}
+	]{ELISA_cor_R1_leaf}
+	
+		\pggf_trendline()
+	
+		\pggf_scatter(
+			mark size = 2,
+			style from column = id,
+			y error = CI
+		)
+		
+		\pggf_annotate(scatter legend*)
+	
+		\pggf_stats(stats = {n,spearman,rsquare})
+	
+	\end{pggfplot}
+	
+	
+	%%% maize ELISA frags: correlation across tissues
+	\coordinate[xshift = \columnsep] (tissues) at (pggfplot c1r1.outer north east);
+	
+	\distance{pggfplot c1r1.south}{pggfplot c1r1.above north}
+	
+	\begin{pggfplot}[%
+		at = {(pggfplot c1r1.above north -| \textwidth, 0)},
+		anchor = north east,
+		total width = \threecolumnwidth,
+		height = \ydistance,
+		ylabel add to width = 32pt,
+		ticklabels are csnames,
+		xticklabel style = {font = \vphantom{\usename{lambda-EXOB}}, rotate = 45, anchor = north east, align = right},
+		colormap={whiteblue}{color(0cm)=(white); color(1cm)=(RoyalBlue1)},
+		facet 1/.append style = {
+			pggf colorbar = {%
+				title = {correlation ($R^2$)},
+				/pgf/number format/fixed zerofill,
+				/pgf/number format/precision = 1,
+				at = {(1, .975)},
+				anchor = north east,
+			}
+		},
+		point meta min = 0,
+		point meta max = 1,
+		axis x line = bottom,
+		axis y line = left,
+		tight y
+	]{ELISA_tissues}
+	
+		\pggf_heatmap(
+			border,
+			nodes near coords = {\pgfmathfloatifflags{\pgfplotspointmeta}{3}{}{\pgfmathprintnumber[fixed, fixed zerofill, precision = 2]{\pgfplotspointmeta}}},
+			nodes near coords style = {anchor = center, font = \figsmall}
+		)
+	
+	\end{pggfplot}
+
+	
+	%%% subfigure labels
+	\subfiglabel{DL construct}
+	\subfiglabel{FLins Arabidopsis}
+	\subfiglabel{cor FLins Arabidopsis}
+	\subfiglabel{FLins rice}
+	\subfiglabel{cor FLins rice}
+	\subfiglabel{frags Arabidopsis}
+	\subfiglabel{cor frags Arabidopsis}
+	\subfiglabel{ELISA construct}
+	\subfiglabel{frags maize}
+	\subfiglabel{cor frags maize}
+	\subfiglabel{tissues}
+	
+\end{tikzpicture}
