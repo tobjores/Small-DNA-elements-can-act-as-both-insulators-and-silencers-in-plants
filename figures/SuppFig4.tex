@@ -15,11 +15,15 @@
 		title color from name,
 		enlarge y limits = {lower, value = 0.1},
 		tight y,
-	]{ELISA_samples}
+	]{ELISA_stacked_samples}
 	
 		\pggf_annotate(zeroline)
 		
-		\pggf_hline()
+		\pggf_hline(
+			noEnh/.style = dashed,
+			noIns/.style = {draw = black},
+			style from column = intercept_id
+		)
 	
 		\pggf_boxplot(
 			style from column = {fill = xticklabels},
@@ -49,14 +53,14 @@
 		},
 		legend cell align = left,
 		legend plot pos = left,
-		scatter styles = {noEnh,noIns,beta-phaseolin_781_612,beta-phaseolin_1395_1564,beta-phaseolin_2356_2187,TBS_588_757,lambda-EXOB_666_497,sIns2_335_504}
-	]{ELISA_cor_samples}
+		scatter styles = {noEnh,noIns,D2,T30,T21,T27,T32,T24,T25,T19,T9}
+	]{ELISA_stacked_cor_samples}
 	
 		\pggf_trendline()
 	
 		\pggf_scatter(
 			mark size = 2,
-			style from column = id,
+			style from column = short_id,
 			y error = CI
 		)
 		
@@ -65,7 +69,10 @@
 			only facets = 3
 		)
 	
-		\pggf_stats(stats = {n,spearman,rsquare})
+		\pggf_stats(
+			stats = {n,spearman,rsquare},
+			position = south east
+		)
 	
 	\end{pggfplot}
 	

@@ -65,8 +65,8 @@
 	\end{pgfonlayer}
 	
 	% names
-	\node[anchor = south, node font = \figlarge\bfseries, shift = {(.5\fourcolumnwidth, .25\columnsep)}] at (constructs iDE |- lwith.north) {with 35S};
-	\node[anchor = north, node font = \figlarge\bfseries, shift = {(.5\fourcolumnwidth, -.25\columnsep)}] at (constructs iDE |- lwithout.south) {without 35S};
+	\node[anchor = south, node font = \figlarge\bfseries, shift = {(.5\fourcolumnwidth, .25\columnsep)}] at (constructs iDE |- lwith.north) {\usename{with}};
+	\node[anchor = north, node font = \figlarge\bfseries, shift = {(.5\fourcolumnwidth, -.25\columnsep)}] at (constructs iDE |- lwithout.south) {\usename{without}};
 		
 	
 	%%% enrichment iDE
@@ -100,8 +100,8 @@
 	\begin{pggfplot}[%
 		at = {(cor 35S)},
 		total width = {\textwidth - \fourcolumnwidth - \threecolumnwidth - 2\columnsep},
-		xlabel = {\textbf{without \usename{35S}:} \enrichment},
-		ylabel = {\textbf{with \usename{35S}:} \enrichment},
+		xlabel = {\textbf{\usename{without}:} \enrichment},
+		ylabel = {\textbf{\usename{with}:} \enrichment},
 		title is csname,
 		title color from name,
 	]{iDE_cor_35S}

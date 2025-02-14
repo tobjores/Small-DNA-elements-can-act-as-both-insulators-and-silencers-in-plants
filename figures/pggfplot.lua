@@ -614,7 +614,7 @@ local function boxplot_from_table (plot_id, facet, plot_type)
 			outlier_data = outlier_data[facet] or outlier_data[0]
 			
 			if samples then
-				lines = string.gmatch(outlier_data, '.-\\\\')
+				lines = string.gmatch(outlier_data .. '\\\\', '.-\\\\')
 				local data_filtered = lines()
 				for line in lines do
 					for sample in string.gmatch(samples, '[^,]+') do
@@ -646,7 +646,6 @@ local function boxplot_from_table (plot_id, facet, plot_type)
 		local mark_id = 1
 		for mark_col in string.gmatch(mark, '[^;]*') do
 		
-			--tex.sprint(4, '\\node[/pggf/plot/label@' .. plot_id .. '@' .. label_id .. '=' .. box_data.sample_id .. '] at ' .. label_pos .. ' {\\pggf@label@pre ' .. label_text .. '\\pggf@label@post};')
 			tex.sprint(
 				4,
 				'\\addplot[only marks,mark=solido,/pggf/plot/extramark@' .. plot_id .. '@' .. mark_id .. ']',

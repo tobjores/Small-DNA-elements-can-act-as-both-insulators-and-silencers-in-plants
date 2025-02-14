@@ -288,7 +288,7 @@
 	
 	\draw[Latex-] (ins) ++(0, .05) -- ++(0, .4) node[anchor = south, font = \bfseries] {insulator};
 	\draw[Latex-] (enh) ++(0, -.15) -- ++(0, -.4) node[anchor = north] {35S enhancer};
-	\draw[Latex-] (pro) ++(0, -.15) -- ++(.3, -.4) node[anchor = north] (lpro) {ZmPro};
+	\draw[Latex-] (pro) ++(0, -.15) -- ++(.3, -.4) node[anchor = north west, xshift = -2em] (lpro) {\textit{ZmGOS2} promoter};
 	
 	\draw[decorate, decoration = {brace, raise = -.15cm, amplitude = .4cm, aspect = .9}] (lpro.south -| construct end) -- (lpro.south -| construct) coordinate[pos = .9, yshift = -.25cm] (curly);
 	
@@ -319,7 +319,11 @@
 	
 		\pggf_annotate(zeroline)
 		
-		\pggf_hline()
+		\pggf_hline(
+			noEnh/.style = dashed,
+			noIns/.style = {draw = black},
+			style from column = intercept_id
+		)
 	
 		\pggf_boxplot(
 			style from column = {fill = xticklabels},

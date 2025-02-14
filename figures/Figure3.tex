@@ -224,7 +224,11 @@
 	
 		\pggf_annotate(zeroline)
 		
-		\pggf_hline()
+		\pggf_hline(
+			noEnh/.style = dashed,
+			noIns/.style = {draw = black},
+			style from column = intercept_id
+		)
 	
 		\pggf_boxplot(
 			style from column = {fill = xticklabels},

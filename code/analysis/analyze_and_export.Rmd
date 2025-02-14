@@ -29,6 +29,18 @@ xlsx_2digit <- createStyle(numFmt = '0.00')
 xlsx_seq_font <- createStyle(fontName = 'Courier New')
 xlsx_center <- createStyle(halign = 'center')
 
+# function to make the the name of a supplementary datasets bold
+makeNameBold <- function(wb, id) {
+  for (i in grep(paste0('Supplementary Dataset ', id, '.'), wb$sharedStrings, fixed = TRUE)) {
+    wb$sharedStrings[[i]] <- gsub('<si>', '<si><r>', gsub('</si>', '</r></si>', wb$sharedStrings[[i]]))
+    wb$sharedStrings[[i]] <- gsub(
+      '(Supplementary Dataset [0-9]+.)',
+      '</t></r><r><rPr><b val=\"true\"/></rPr><t xml:space=\"preserve\">\\1</t></r><r><t xml:space=\"preserve\">',
+      wb$sharedStrings[[i]]
+    )
+  }
+}
+
 supp_data_dir <- '../../data/supplementary_data/'
 
 # load data
@@ -290,12 +302,12 @@ addWorksheet(wb, sheetName = 'insulator fragments')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Data ', DS_id,' | Enrichment of insulator fragment constructs.'),
+  paste0('Supplementary Dataset ', DS_id, '. Enrichment of insulator fragment constructs.'),
   startCol = 1,
   startRow = 1
 )
 
-addStyle(wb, sheet = 1, style = xlsx_bold, rows = 1, cols = 1)
+makeNameBold(wb, DS_id)
 mergeCells(wb, sheet = 1, rows = 1, cols = seq_len(ncol(data_iLib_export)))
 
 writeData(
@@ -353,7 +365,7 @@ addStyle(wb, sheet = 1, style = xlsx_seq_font, cols = which(xlsx_header == 'sequ
 
 freezePane(wb, sheet = 1, firstActiveRow = 6)
 
-saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryData', DS_id, '.xlsx'), overwrite = TRUE)
+saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryDataset', DS_id, '.xlsx'), overwrite = TRUE)
 ```
 
 ## Insulators in stable lines
@@ -986,12 +998,12 @@ addWorksheet(wb, sheetName = 'insulator fragment combinations')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Data ', DS_id,' | Enrichment of insulator fragment combination constructs.'),
+  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator fragment combination constructs.'),
   startCol = 1,
   startRow = 1
 )
 
-addStyle(wb, sheet = 1, style = xlsx_bold, rows = 1, cols = 1)
+makeNameBold(wb, DS_id)
 mergeCells(wb, sheet = 1, rows = 1, cols = seq_len(ncol(data_iFC_export)))
 
 writeData(
@@ -1050,7 +1062,7 @@ setColWidths(wb, sheet = 1, cols = grep('fragment ', xlsx_header), widths = 24)
 
 freezePane(wb, sheet = 1, firstActiveRow = 6)
 
-saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryData', DS_id, '.xlsx'), overwrite = TRUE)
+saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryDataset', DS_id, '.xlsx'), overwrite = TRUE)
 ```
 
 
@@ -1419,12 +1431,12 @@ addWorksheet(wb, sheetName = 'downstream enhancer')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Data ', DS_id,' | Enrichment of insulator fragment constructs with a downstream enhancer.'),
+  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator fragment constructs with a downstream enhancer.'),
   startCol = 1,
   startRow = 1
 )
 
-addStyle(wb, sheet = 1, style = xlsx_bold, rows = 1, cols = 1)
+makeNameBold(wb, DS_id)
 mergeCells(wb, sheet = 1, rows = 1, cols = seq_len(ncol(data_iDE_export)))
 
 writeData(
@@ -1484,7 +1496,7 @@ setColWidths(wb, sheet = 1, cols = which(xlsx_header == 'log2(enrichment)'), wid
 
 freezePane(wb, sheet = 1, firstActiveRow = 6)
 
-saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryData', DS_id, '.xlsx'), overwrite = TRUE)
+saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryDataset', DS_id, '.xlsx'), overwrite = TRUE)
 ```
 
 ## Insulators or silencers?
@@ -1599,12 +1611,12 @@ addWorksheet(wb, sheetName = 'insulator v silencer constructs')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Data ', DS_id,' | Enrichment of insulator fragments in insulator and silencer constructs.'),
+  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator fragments in insulator and silencer constructs.'),
   startCol = 1,
   startRow = 1
 )
 
-addStyle(wb, sheet = 1, style = xlsx_bold, rows = 1, cols = 1)
+makeNameBold(wb, DS_id)
 mergeCells(wb, sheet = 1, rows = 1, cols = seq_len(ncol(data_isLib_export)))
 
 writeData(
@@ -1661,7 +1673,7 @@ addStyle(wb, sheet = 1, style = xlsx_seq_font, cols = which(xlsx_header == 'sequ
 
 freezePane(wb, sheet = 1, firstActiveRow = 6)
 
-saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryData', DS_id, '.xlsx'), overwrite = TRUE)
+saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryDataset', DS_id, '.xlsx'), overwrite = TRUE)
 ```
 
 ## Enhancer-insulator combinations
@@ -1814,12 +1826,12 @@ addWorksheet(wb, sheetName = 'enhancer-insulator combinations')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Data ', DS_id,' | Enrichment of insulator and silencer constructs with eight different enhancers.'),
+  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator and silencer constructs with eight different enhancers.'),
   startCol = 1,
   startRow = 1
 )
 
-addStyle(wb, sheet = 1, style = xlsx_bold, rows = 1, cols = 1)
+makeNameBold(wb, DS_id)
 mergeCells(wb, sheet = 1, rows = 1, cols = seq_len(ncol(data_ExI_export)))
 
 writeData(
@@ -1876,7 +1888,7 @@ addStyle(wb, sheet = 1, style = xlsx_seq_font, cols = which(xlsx_header == 'sequ
 
 freezePane(wb, sheet = 1, firstActiveRow = 6)
 
-saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryData', DS_id, '.xlsx'), overwrite = TRUE)
+saveWorkbook(wb, paste0(supp_data_dir, 'SupplementaryDataset', DS_id, '.xlsx'), overwrite = TRUE)
 ```
 
 ## Silencer constructs in stable lines
