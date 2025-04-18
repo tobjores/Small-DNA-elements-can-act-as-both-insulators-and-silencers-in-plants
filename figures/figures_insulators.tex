@@ -8,6 +8,10 @@
 \usepackage[x11names, table]{xcolor}
 \usepackage{pggfplot}
 \usepackage{plantico}
+\usepackage{tabularx}
+\usepackage{xltabular}
+\usepackage{booktabs}
+\usepackage{dnaseq}
 \usepackage{caption}
 \usepackage{newfloat}
 \usepackage{xspace}
@@ -32,7 +36,7 @@
 \newcommand{\fighuge}{\small} % 9pt
 
 %%% page layout
-\geometry{letterpaper, textwidth = 180mm, textheight = 225mm, marginratio = 1:1}
+\geometry{letterpaper, textwidth = 180mm, textheight = 235mm, marginratio = 1:1}
 \renewcommand{\textfraction}{0}
 \makeatletter
 	\setlength{\@fptop}{0pt}
@@ -43,6 +47,14 @@
 
 %%% no indentation
 \setlength\parindent{0pt}
+
+%%% table layout
+\renewcommand{\arraystretch}{1.33}
+
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
 
 %%% useful lengths
 \newlength{\templength}
@@ -105,13 +117,13 @@
 \defname[named]{none}{\vphantom{A}none}{black}
 \defname[named]{35S}{35S}{35Senhancer}
 \defname[named]{AB80}{\textit{AB80}}{OrangeRed1}
-\defname[named]{Cab-1}{\textit{Cab-1}}{Chartreuse3}
+\defname[named]{Cab-1}{\textit{Cab-1}}{Gold3}
 
 % define species
-\defname[named]{tobacco}{tobacco}{Green4}
+\defname[named]{tobacco}{\textit{N. benthamiana}}{Green4}
 \defname[named]{maize}{maize}{Goldenrod2}
 \defname[named]{rice}{rice}{Khaki1}
-\defname[named]{Arabidopsis}{\textit{Arabidopsis}}{SeaGreen4}
+\defname[named]{Arabidopsis}{Arabidopsis}{SeaGreen4}
 
 % define species combos for plot titles
 \newcommand{\defspeciescombo}[2]{
@@ -122,21 +134,21 @@
 }
 
 \defspeciescombo{tobacco}{maize}
-\defspeciescombo{Arabidopsis}{tobacco}
+\defspeciescombo{Arabidopsis}{tobacco}\expandafter\def\csname Arabidopsis/tobacco\endcsname{\usename{Arabidopsis} vs. \textit{N. benth.}}
 \defspeciescombo{rice}{maize}
 \defspeciescombo{maize}{maize}
 
 % define insulators
 \defname[named]{noEnh}{noEnh}{black}
 \defname[named]{noIns}{noIns}{35Senhancer}
-\defname{beta-phaseolin}{\textbeta-phaseolin}{F8766D}
-\defname{TBS}{TBS}{7CAE00}
-\defname{lambda-EXOB}{$\lambda$-EXOB}{00BFC4}
-\defname{BEAD-1C}{BEAD-1C}{C77CFF}
-\defname{UASrpg}{UASrpg}{CD9600}
-\defname{sIns1}{sIns1}{00BE67}
-\defname[named]{sIns2}{sIns2}{DarkOrange2}
-\defname{gypsy}{gypsy}{FF61CC}
+\defname{beta-phaseolin}{\textbeta-phaseolin}{CC79A7}
+\defname{TBS}{TBS}{D55E00}
+\defname{lambda-EXOB}{$\lambda$-EXOB}{0072B2}
+\defname{BEAD-1C}{BEAD-1C}{D6C700}
+\defname{UASrpg}{UASrpg}{009E73}
+\defname{sIns1}{sIns1}{56B4E9}
+\defname{sIns2}{sIns2}{E69F00}
+\defname[named]{gypsy}{gypsy}{gray}
 
 \newcommand{\deffrag}[3]{
 	\defname[named]{#1_#2_#3}{\usename{#1}\\[-.25\baselineskip]\figtiny(#2\textendash #3)}{#1}
@@ -164,15 +176,15 @@
 \defname[named]{V6_root_mature}{root mid (V6)}{Goldenrod4}
 
 % fragment combinations
-\defname[named]{D2}{D2}{lambda-EXOB}
-\defname[named]{T30}{T30}{BEAD-1C}\colorlet{T30}{BEAD-1C!50}
-\defname[named]{T21}{T21}{BEAD-1C}\colorlet{T21}{BEAD-1C!65}
-\defname[named]{T27}{T27}{BEAD-1C}\colorlet{T27}{BEAD-1C!80}
-\defname[named]{T32}{T32}{BEAD-1C}\colorlet{T32}{BEAD-1C!95}
-\defname[named]{T24}{T24}{BEAD-1C}\colorlet{T24}{BEAD-1C!95!black}
-\defname[named]{T25}{T25}{BEAD-1C}\colorlet{T25}{BEAD-1C!80!black}
-\defname[named]{T19}{T19}{BEAD-1C}\colorlet{T19}{BEAD-1C!65!black}
-\defname[named]{T9}{T9}{BEAD-1C}\colorlet{T9}{BEAD-1C!50!black}
+\defname[named]{D2}{D2}{beta-phaseolin}
+\defname[named]{T30}{T30}{TBS}\colorlet{T30}{TBS!50}
+\defname[named]{T21}{T21}{TBS}\colorlet{T21}{TBS!65}
+\defname[named]{T27}{T27}{TBS}\colorlet{T27}{TBS!80}
+\defname[named]{T32}{T32}{TBS}\colorlet{T32}{TBS!95}
+\defname[named]{T24}{T24}{TBS}\colorlet{T24}{TBS!95!black}
+\defname[named]{T25}{T25}{TBS}\colorlet{T25}{TBS!80!black}
+\defname[named]{T19}{T19}{TBS}\colorlet{T19}{TBS!65!black}
+\defname[named]{T9}{T9}{TBS}\colorlet{T9}{TBS!50!black}
 \defname[named]{T9+D2}{T9+D2}{UASrpg}\colorlet{T9+D2}{UASrpg!75}
 \defname[named]{T32+D2}{T32+D2}{UASrpg}
 \defname[named]{T27+D2}{T27+D2}{UASrpg}\colorlet{T27+D2}{UASrpg!75!black}
@@ -199,7 +211,7 @@
 \newenvironment{fig}{%
 	\begin{figure}[p]%
 		\stepcounter{fig}%
-		\pdfbookmark{\figurename\ \thefig}{figure\thefig}
+		\pdfbookmark{\figurename\ \thefig}{figure\thefig}%
 		\tikzsetnextfilename{figure\thefig}%
 		\fignormal%
 		\centering%
@@ -222,7 +234,7 @@
 	\begin{suppfigure}[p]%
 		\stepcounter{sfig}%
 		\setcounter{subfig}{0}%
-		\pdfbookmark{\suppfigurename\ \thesfig}{supp_figure\thesfig}
+		\pdfbookmark{\suppfigurename\ S\thesfig}{supp_figure\thesfig}%
 		\tikzsetnextfilename{supp_fig\thesfig}%
 		\fignormal%
 		\centering%
@@ -233,6 +245,44 @@
 		\makenextpagecaption%
 		\global\npcfalse%
 	\fi%
+}
+
+% supplementary tables
+\newif\ifstab
+\newcounter{stab}
+
+\addto\captionsenglish{\renewcommand\tablename{Supplementary Table}}
+
+\newenvironment{stab}{%
+	\begin{table}[p]%
+		\stepcounter{stab}%
+		\pdfbookmark{\tablename\ S\thestab}{supp_table\thestab}%
+		\small%
+}{%
+	\end{table}%
+	\clearpage%
+}
+
+\newenvironment{longstab}{%
+	\begingroup%
+	\stepcounter{stab}%
+	\pdfbookmark{\tablename\ S\thestab}{supp_table\thestab}%
+	\small%
+}{%
+	\endgroup%
+	\clearpage%
+}
+
+% TOC icon
+\newif\ifTOCicon
+
+\newenvironment{TOCicon}{%
+		\pdfbookmark{TOC icon}{TOC_icon}%
+		\tikzsetnextfilename{TOC_icon}%
+		\fignormal%
+		\centering%
+}{%
+	\clearpage%
 }
 
 %% command to put the caption on the next page
@@ -266,9 +316,9 @@
 }
 \captionsetup[figure]{skip = .5\baselineskip}
 
-\newcommand{\titleend}{ }
+\newcommand{\titleend}{. }
 \newcommand{\nextentry}{ }
-\newcommand{\captiontitle}[2][]{#2.\titleend}
+\newcommand{\captiontitle}[2][]{#2#1\titleend}
 
 %%% subfigure labels
 \newif\ifsubfigupper
@@ -284,18 +334,20 @@
 	\node[anchor = north west, inner sep = 0pt, font = \large\bfseries, #1] at (#2) {\strut\stepcounter{subfig}\ifsubfigupper\Alph{subfig}\else\alph{subfig}\fi};
 }
 
-\newcommand{\subfigrefsep}{ }
+\newcommand{\subfigrefsep}{\textbf{)}}
 \newcommand{\subfigrefand}{, }
 \newcommand{\subfigrefrange}{\textendash}
 
 \newcommand{\subfigunformatted}[1]{\ifsubfigupper\uppercase{#1}\else\lowercase{#1}\fi}
 \newcommand{\plainsubfigref}[1]{\textbf{\subfigunformatted{#1}}}
-\newcommand{\subfig}[1]{\textbf{\plainsubfigref{#1})}\subfigrefsep}
-\newcommand{\subfigtwo}[2]{\textbf{\plainsubfigref{#1}\subfigrefand\plainsubfigref{#2})}\subfigrefsep}
-\newcommand{\subfigrange}[2]{\textbf{\plainsubfigref{#1}\subfigrefrange\plainsubfigref{#2})}\subfigrefsep}
+\newcommand{\subfig}[1]{\textbf{\plainsubfigref{#1}}\subfigrefsep}
+\newcommand{\subfigtwo}[2]{\textbf{\plainsubfigref{#1}\subfigrefand\plainsubfigref{#2}}\subfigrefsep}
+\newcommand{\subfigrange}[2]{\textbf{\plainsubfigref{#1}\subfigrefrange\plainsubfigref{#2}}\subfigrefsep}
 \newcommand{\parensubfig}[2][]{(#1\plainsubfigref{#2})}
 \newcommand{\parensubfigtwo}[3][]{(#1\plainsubfigref{#2}\subfigrefand\plainsubfigref{#3})}
 \newcommand{\parensubfigrange}[3][]{(#1\plainsubfigref{#2}\subfigrefrange\plainsubfigref{#3})}
+
+\newcommand{\supports}[1]{ (Supports #1)}
 
 %%% cross-reference setup
 \newcommand{\crefrangeconjunction}{\subfigrefrange}
@@ -305,10 +357,13 @@
 
 \crefname{figure}{Figure}{Figures}
 \crefname{suppfigure}{Supplementary Figure}{Supplementary Figures}
+\crefname{table}{Supplementary Table}{Supplementary Tables}
 
 %%% what to include
 \maintrue
 \supptrue
+\stabtrue
+\TOCicontrue
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   ||    preamble end    ||   %%%
@@ -320,8 +375,9 @@
 	\sffamily
 	\frenchspacing
 	
-	%%% change names of figures
+	%%% change numbering of supplementary figures and tables
 	\renewcommand\thesuppfigure{S\arabic{suppfigure}}
+	\renewcommand\thetable{S\arabic{table}}
 	
 	%%% Main figures start
 	\ifmain
@@ -330,7 +386,7 @@
 			\input{Figure1}%
 			\nextpagecaption{%
 				\captiontitle{Short fragments exhibit enhancer-blocking insulator activity}%
-				\subfig{A} Known insulators were split into partially overlapping 170-bp fragments. The insulator fragments were cloned in the forward or reverse orientation between a \usename{35S}, \usename{AB80}, or \usename{Cab-1} enhancer and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene. Constructs without an enhancer (none) but with insulator fragments were also created.\nextentry
+				\subfig{A} Known insulators were split into partially overlapping 170-bp fragments. The insulator fragments were cloned in the forward or reverse orientation between a \usename{35S}, \usename{AB80}, or \usename{Cab-1} enhancer and a 35S minimal promoter (green rectangle) driving the expression of a barcoded GFP reporter gene. Constructs without an enhancer (none) but with insulator fragments were also created.\nextentry
 				\subfig{B} All insulator fragment constructs were pooled and subjected to Plant STARR-seq in \tobacco leaves (\tobacco) and \maize protoplasts (\maize). Reporter mRNA enrichment was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0). The enrichment of a control construct without an insulator is indicated as a black dot. Violin plots represent the kernel density distribution and the box plots inside represent the median (center line), upper and lower quartiles, and 1.5$\times$ interquartile range (whiskers) for all corresponding constructs. Numbers at the bottom of each violin indicate the number of samples in each group.\nextentry
 				\subfig{C} Correlation between the enrichment of insulator fragments in constructs with the \usename{35S} enhancer in \tobacco leaves and \maize protoplasts.\nextentry
 				\subfig{D} Enrichment of constructs with insulator fragments cloned between the \usename{35S} enhancer and minimal promoter. The position along the full-length insulator and the orientation (arrow pointing right, fwd; arrow pointing left, rev) of the fragments is indicated by arrows. Clusters of active fragments are shown as shaded areas. Insulators with highly orientation-dependent activity are circled.\nextentry
@@ -376,10 +432,10 @@
 			\input{Figure4}%
 			\caption{%
 				\captiontitle{Insulators exhibit silencer activity in some contexts}%
-				\subfig{A} Insulator fragments were cloned upstream of a \usename{AB80} or \usename{Cab-1} enhancer and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene. Half of the constructs also harbored a \usename{35S} enhancer upstream of the insulator fragments (\usename{with}) while the other half lacked an upstream enhancer (\usename{without}).\nextentry
+				\subfig{A} Insulator fragments (yellow triangle) were cloned upstream of a \usename{AB80} or \usename{Cab-1} enhancer and a 35S minimal promoter (green rectangle) driving the expression of a barcoded GFP reporter gene. Half of the constructs also harbored a \usename{35S} enhancer upstream of the insulator fragments (\usename{with}) while the other half lacked an upstream enhancer (\usename{without}).\nextentry
 				\subfig{B} All constructs were pooled and subjected to Plant STARR-seq in \tobacco leaves. Reporter mRNA enrichment was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0). The enrichment of a control construct without an insulator is indicated as a black dot.\nextentry
 				\subfig{C}  Correlation between insulator fragment activity in constructs with or without the upstream \usename{35S} enhancer. The dashed line represents a y = x line fitted through the point corresponding to a control construct without an insulator (black dot).\nextentry
-				\subfig{D} Insulator fragments were cloned in between (insulator construct) or upstream of (silencer construct) a \usename{35S} enhancer and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene.\nextentry
+				\subfig{D} Insulator fragments (yellow triangle) were cloned in between (insulator construct) or upstream of (silencer construct) a \usename{35S} enhancer (blue arrow) and a 35S minimal promoter (green rectangle) driving the expression of a barcoded GFP reporter gene.\nextentry
 				\subfig{E} All constructs were pooled and subjected to Plant STARR-seq in \tobacco leaves (\tobacco) or \maize protoplasts (\maize). Reporter mRNA enrichment was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0). The enrichment of a control construct without an insulator is indicated as a dotted line.\nextentry
 				\subfig{F} Comparison of the enrichment of insulator fragments in insulator or silencer constructs. A linear regression line is shown as a solid line and its slope and goodness-of-fit ($R^2$) is indicated.\nextentry
 				Violin plots in \parensubfig{B} and \parensubfig{E} are as defined in \cref{fig:fragments}\subfigunformatted{B}.
@@ -391,7 +447,7 @@
 			\input{Figure5}%
 			\caption{%
 				\captiontitle{Silencer activity depends on enhancer strength}%
-				\subfig{A} Selected insulators and insulator fragments were cloned in between (insulator construct) or upstream of (silencer construct) an enhancer and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene. Eight different enhancers were used to build these constructs. All constructs were pooled and subjected to Plant STARR-seq in \tobacco leaves (\tobacco) or \maize protoplasts (\maize).\nextentry
+				\subfig{A} Selected insulators and insulator fragments (yellow triangle) were cloned in between (insulator construct) or upstream of (silencer construct) an enhancer and a 35S minimal promoter (green rectangle) driving the expression of a barcoded GFP reporter gene. Eight different enhancers were used to build these constructs. All constructs were pooled and subjected to Plant STARR-seq in \tobacco leaves (\tobacco) or \maize protoplasts (\maize).\nextentry
 				\subfig{B} Strength of the eight enhancers in constructs without an insulator. Reporter mRNA enrichment was normalized to a control construct without an enhancer (none; log2 set to 0). Box plots represent the median (center line), upper and lower quartiles, and 1.5$\times$ interquartile range (whiskers) for all corresponding barcodes from two independent replicates. Numbers at the bottom of the plot indicate the number of samples in each group.\nextentry
 				\subfig{C} Comparison of the enrichment of insulators and insulator fragments in insulator or silencer constructs. A linear regression line is shown as a solid line and its slope and goodness-of-fit ($R^2$) is indicated.\nextentry
 				\subfig{D} Correlation between the slope of the regression lines from \parensubfig{C} and the strength of the corresponding enhancer from \parensubfig{B}. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated. A linear regression line is shown as a dashed line.
@@ -408,7 +464,7 @@
 		\begin{sfig}
 			\input{SuppFig1}%
 			\caption{%
-				\captiontitle{Plant STARR-seq detects activity of enhancer-blocking insulators}%
+				\captiontitle[\supports{\cref{fig:fragments}}]{Plant STARR-seq detects activity of enhancer-blocking insulators}%
 				\subfig{A} Full-length insulators were cloned in the forward (fwd) or reverse (rev) orientation between a 35S enhancer and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene.\nextentry
 				\subfig{B} In all experiments, control constructs as in \parensubfig{A} but without an insulator (noIns) or without an insulator and without an enhancer (noEnh) were added to the library.\nextentry
 				\subfig{C} All insulator constructs were pooled and subjected to Plant STARR-seq in \tobacco leaves (\tobacco) and \maize protoplasts (\maize). Reporter mRNA enrichment was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0). Box plots represent the median (center line), upper and lower quartiles, and 1.5$\times$ interquartile range (whiskers) for all corresponding barcodes from two independent replicates. Numbers at the bottom of the plot indicate the number of samples in each group. The enrichment of a control construct without an insulator (noIns) is indicated as a dotted line.
@@ -419,8 +475,8 @@
 		\begin{sfig}
 			\input{SuppFig2}%
 			\caption{%
-				\captiontitle{Plant STARR-seq yields highly reproducible results}%
-				\subfigrange{A}{G} Correlation between biological replicates of Plant STARR-seq for the full-length insulator library used in \cref{sfig:FLins} \parensubfig{A}, the insulator fragment library used in \cref{fig:fragments} \parensubfig{B}, the insulator fragment combination library used in \cref{fig:stacking} \parensubfig{C}, the downstream enhancer library \parensubfig{D} and the insulator/silencer library \parensubfig{E} used in \cref{fig:silencer}, and the enhancer-insulator combination library used in \cref{fig:enhancers} \parensubfig{F}. Experiments were performed in \tobacco leaves (\tobacco) or \maize protoplasts (\maize) as indicated. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated. The color in the hexbin plots in \parensubfig{C} represents the count of points in each hexagon.
+				\captiontitle[\supports{all figures}]{Plant STARR-seq yields highly reproducible results}%
+				\subfigrange{A}{F} Correlation between biological replicates of Plant STARR-seq for the full-length insulator library used in \cref{sfig:FLins} \parensubfig{A}, the insulator fragment library used in \cref{fig:fragments} \parensubfig{B}, the insulator fragment combination library used in \cref{fig:stacking} \parensubfig{C}, the downstream enhancer library \parensubfig{D} and the insulator/silencer library \parensubfig{E} used in \cref{fig:silencer}, and the enhancer-insulator combination library used in \cref{fig:enhancers} \parensubfig{F}. Experiments were performed in \tobacco leaves (\tobacco) or \maize protoplasts (\maize) as indicated. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated. The color in the hexbin plots in \parensubfig{C} represents the count of points in each hexagon.
 			}%
 			\label{sfig:PEfl_ori}
 		\end{sfig}
@@ -428,8 +484,9 @@
 		\begin{sfig}
 			\input{SuppFig3}%
 			\caption{%
-				\captiontitle{Activity of insulator fragments in different maize tissues}%
-				\subfigtwo{A}{B} Transgenic \maize lines were created using constructs as in \cref{fig:insDL}\subfigunformatted{h}. The activity of insulator fragments was measured in the indicated tissues \parensubfig{A} and compared to the corresponding results from Plant STARR-seq in \maize protoplasts \parensubfig{B}. In \parensubfig{A}, box plots are as defined in \cref{fig:insDL}, and the dotted and dashed lines represent the median enrichment of control constructs without an insulator or without an enhancer, respectively.
+				\captiontitle[\supports{\cref{fig:insDL}}]{Activity of insulator fragments in different maize tissues}%
+				\subfigtwo{A}{B} Transgenic \maize lines were created using constructs as in \cref{fig:insDL}\subfigunformatted{h}. The activity of insulator fragments was measured in the indicated tissues \parensubfig{A} and compared to the corresponding results from Plant STARR-seq in \maize protoplasts \parensubfig{B}.
+				Box plots in \parensubfig{A} represent the median (center line), upper and lower quartiles (box limits), 1.5$\times$ interquartile range (whiskers), and outliers (points) for all corresponding samples from two to three independent replicates. Numbers at the bottom of each box plot indicate the number of samples in each group. For groups with less than 10 samples, individual data points are shown as black dots. The dotted and dashed lines in \parensubfig{A} represent the median enrichment of control constructs without an insulator or without an enhancer, respectively. In \parensubfig{B}, the dashed line represents a linear regression line and error bars represent the 95\% confidence interval. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated.
 			}%
 			\label{sfig:ELISA_frags}%
 		\end{sfig}
@@ -437,8 +494,8 @@
 		\begin{sfig}
 			\input{SuppFig4}%
 			\caption{%
-				\captiontitle{Activity of insulator fragment combinations in different maize tissues}%
-				\subfigtwo{A}{B} Transgenic \maize lines were created using insulator fragment combinations in constructs as in \cref{fig:insDL}\subfigunformatted{h}. The activity of insulator fragments was measured in the indicated tissues \parensubfig{A} and compared to the corresponding results from Plant STARR-seq in \maize protoplasts \parensubfig{B}. In \parensubfig{A}, box plots are as defined in \cref{fig:insDL}, and the dotted and dashed lines represent the median enrichment of control constructs without an insulator or without an enhancer, respectively.
+				\captiontitle[\supports{\cref{fig:stacking}}]{Activity of insulator fragment combinations in different maize tissues}%
+				\subfigtwo{A}{B} Transgenic \maize lines were created using insulator fragment combinations in constructs as in \cref{fig:insDL}\subfigunformatted{h}. The activity of insulator fragments was measured in the indicated tissues \parensubfig{A} and compared to the corresponding results from Plant STARR-seq in \maize protoplasts \parensubfig{B}. In \parensubfig{A}, box plots are as defined in \cref{sfig:ELISA_frags}, and the dotted and dashed lines represent the median enrichment of control constructs without an insulator or without an enhancer, respectively. In \parensubfig{C}, the dashed line represents a linear regression line and error bars represent the 95\% confidence interval. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated.
 			}%
 			\label{sfig:ELISA_iFC}%
 		\end{sfig}
@@ -446,7 +503,7 @@
 		\begin{sfig}
 			\input{SuppFig5}%
 			\caption{%
-				\captiontitle{Enhancers downstream of insulator fragments slightly reduce their activity}%
+				\captiontitle[\supports{\cref{fig:silencer}}]{Enhancers downstream of insulator fragments slightly reduce their activity}%
 				Correlation between the activity of insulator fragments cloned between a 35S enhancer and a 35S minimal promoter with or without an additional \usename{AB80} or \usename{Cab-1} enhancer inserted between the insulator fragment and 35S minimal promoter. The dashed line represents a y = x line fitted through the point corresponding to a control construct without an insulator (black dot). Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated.
 			}%
 			\label{sfig:iDE_vs_iLib}%
@@ -455,9 +512,9 @@
 		\begin{sfig}
 			\input{SuppFig6}%
 			\caption{%
-				\captiontitle{Enhancer-dependent silencer activity in stable transgenic plants}%
+				\captiontitle[\supports{\cref{fig:enhancers}}]{Enhancer-dependent silencer activity in stable transgenic plants}%
 				\subfig{A} Transgenic \Arabidopsis lines were generated with T-DNAs harboring a constitutively expressed luciferase (Luc) gene and a nanoluciferase (NanoLuc) gene under control of a 35S minimal promoter coupled to the \usename{35S} or \usename{AB80} enhancer (as indicated above the plots) with insulator candidates inserted upstream of the enhancer. Nanoluciferase activity was measured in at least 4 plants from these lines and normalized to the activity of luciferase. The NanoLuc/Luc ratio was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0).\nextentry
-				\subfigtwo{B}{C} The activity of full-length insulators was measured in \Arabidopsis lines \parensubfig{B} and compared to the corresponding results from Plant STARR-seq in \tobacco leaves \parensubfig{C}. Box plots in \parensubfig{B} are as defined in \cref{fig:insDL} and the dotted line indicates the median activity of a control construct without an insulator. In \parensubfig{C}, the dashed line represents a linear regression line and error bars represent the 95\% confidence interval. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated.\nextentry
+				\subfigtwo{B}{C} The activity of full-length insulators was measured in \Arabidopsis lines \parensubfig{B} and compared to the corresponding results from Plant STARR-seq in \tobacco leaves \parensubfig{C}. Box plots in \parensubfig{B} are as defined in \cref{sfig:ELISA_frags} and the dotted line indicates the median activity of a control construct without an insulator. In \parensubfig{C}, the dashed line represents a linear regression line and error bars represent the 95\% confidence interval. Pearson's $R^2$, Spearman's $\rho$, and number ($n$) of constructs are indicated.\nextentry
 				\subfig{D} Comparison of the mean NanoLuc/Luc ratio of full-length insulators in insulator (\cref{fig:insDL}\subfigunformatted{B}) or silencer constructs \parensubfig{B}. A linear regression line is shown as a solid line and its slope and goodness-of-fit ($R^2$) is indicated.
 			}%
 			\label{sfig:silDL}
@@ -465,5 +522,53 @@
 
 	\fi
 	%%% Supplementary figures end
+	
+	%%% Supplemenary tables start
+	\ifstab
+	
+		\begin{stab}
+			\caption{%
+				\captiontitle{Insulator fragments used in fragment combination library}%
+				Positions are numbered by increasing distance from the minimal promoter (position 1 is the fragment closest to the promoter, position 3 the most distal one).
+			}%
+			\label{stab:iFC_frags}%
+			\input{SuppTab1}%
+		\end{stab}
+		
+		\begin{stab}
+			\caption{%
+				\captiontitle{Insulator fragment combinations tested in stable transgenic maize lines}%
+				Positions are numbered by increasing distance from the minimal promoter (position 1 is the fragment closest to the promoter, position 3 the most distal one).
+			}%
+			\label{stab:iFC_maize}%
+			\input{SuppTab2}%
+		\end{stab}
+	
+		\begin{stab}
+			\caption{%
+				\captiontitle{Insulators and insulator fragments used in the enhancer-insulator combination library}%
+			}%
+			\label{stab:ExI}%
+			\input{SuppTab3}%
+		\end{stab}
+		
+		\begin{longstab}
+			\input{SuppTab4}%
+		\end{longstab}
+	
+	\fi
+	%%% Supplemenary tables end
+	
+	%%% TOC icon start
+	\ifTOCicon
+		
+		\begin{TOCicon}
+			\tikzset{jpeg export = 600}%
+			\input{TOCicon}%
+		\end{TOCicon}
+		
+	\fi
+	%%% TOC icon end
+	
 
 \end{document}

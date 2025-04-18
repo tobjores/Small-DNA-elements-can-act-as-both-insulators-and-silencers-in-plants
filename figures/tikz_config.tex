@@ -4,10 +4,11 @@
 \tikzexternalize[prefix = extFigures/, only named = true]
 
 %%% layers
+\pgfdeclarelayer{backbackground}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{semi foreground}
 \pgfdeclarelayer{foreground}
-\pgfsetlayers{background, main, semi foreground, foreground}
+\pgfsetlayers{backbackground, background, main, semi foreground, foreground}
 
 
 %%% colors

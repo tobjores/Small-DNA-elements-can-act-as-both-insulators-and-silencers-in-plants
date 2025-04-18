@@ -31,10 +31,10 @@ xlsx_center <- createStyle(halign = 'center')
 
 # function to make the the name of a supplementary datasets bold
 makeNameBold <- function(wb, id) {
-  for (i in grep(paste0('Supplementary Dataset ', id, '.'), wb$sharedStrings, fixed = TRUE)) {
+  for (i in grep(paste0('Supplementary Dataset S', id, '.'), wb$sharedStrings, fixed = TRUE)) {
     wb$sharedStrings[[i]] <- gsub('<si>', '<si><r>', gsub('</si>', '</r></si>', wb$sharedStrings[[i]]))
     wb$sharedStrings[[i]] <- gsub(
-      '(Supplementary Dataset [0-9]+.)',
+      '(Supplementary Dataset S[0-9]+.)',
       '</t></r><r><rPr><b val=\"true\"/></rPr><t xml:space=\"preserve\">\\1</t></r><r><t xml:space=\"preserve\">',
       wb$sharedStrings[[i]]
     )
@@ -302,7 +302,7 @@ addWorksheet(wb, sheetName = 'insulator fragments')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Dataset ', DS_id, '. Enrichment of insulator fragment constructs.'),
+  paste0('Supplementary Dataset S', DS_id, '. Enrichment of insulator fragment constructs.'),
   startCol = 1,
   startRow = 1
 )
@@ -317,7 +317,7 @@ writeData(
     "Known insulators were split into partially overlapping 170-bp fragments. The insulator fragments were cloned in the forward or reverse",
     "orientation between a 35S, AB80, or Cab-1 enhancer and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene.",
     "Constructs without an enhancer (none) but with insulator fragments were also created. All insulator fragment constructs were pooled and",
-    "subjected to Plant STARR-seq in tobacco leaves (tobacco) and maize protoplasts (maize). Reporter mRNA enrichment was normalized to a",
+    "subjected to Plant STARR-seq in N. benthamiana leaves (tobacco) and maize protoplasts (maize). Reporter mRNA enrichment was normalized to a",
     "control construct without an enhancer or insulator (noEnh; log2 set to 0)."
   ),
   startCol = 1,
@@ -998,7 +998,7 @@ addWorksheet(wb, sheetName = 'insulator fragment combinations')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator fragment combination constructs.'),
+  paste0('Supplementary Dataset S', DS_id,'. Enrichment of insulator fragment combination constructs.'),
   startCol = 1,
   startRow = 1
 )
@@ -1011,7 +1011,7 @@ writeData(
   sheet = 1,
   paste(
     "One, two, or three 170-bp fragments of known insulators were cloned between a 35S enhancer and a 35S minimal promoter driving the",
-    "expression of a barcoded GFP reporter gene. All insulator constructs were pooled and subjected to Plant STARR-seq in tobacco leaves",
+    "expression of a barcoded GFP reporter gene. All insulator constructs were pooled and subjected to Plant STARR-seq in N. benthamiana leaves",
     "(tobacco) and maize protoplasts (maize). Reporter mRNA enrichment was normalized to a control construct without an enhancer or insulator",
     "(log2 set to 0)."
   ),
@@ -1431,7 +1431,7 @@ addWorksheet(wb, sheetName = 'downstream enhancer')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator fragment constructs with a downstream enhancer.'),
+  paste0('Supplementary Dataset S', DS_id,'. Enrichment of insulator fragment constructs with a downstream enhancer.'),
   startCol = 1,
   startRow = 1
 )
@@ -1445,7 +1445,7 @@ writeData(
   paste(
     "Insulator fragments were cloned upstream of a AB80 or Cab-1 enhancer and a 35S minimal promoter driving the expression of a barcoded",
     "GFP reporter gene. Half of the constructs also harbored a 35S enhancer upstream of the insulator fragments while the other half lacked",
-    "an upstream enhancer (none). All constructs were pooled and subjected to Plant STARR-seq in tobacco leaves. Reporter mRNA enrichment",
+    "an upstream enhancer (none). All constructs were pooled and subjected to Plant STARR-seq in N. benthamiana leaves. Reporter mRNA enrichment",
     "was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0)."
   ),
   startCol = 1,
@@ -1611,7 +1611,7 @@ addWorksheet(wb, sheetName = 'insulator v silencer constructs')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator fragments in insulator and silencer constructs.'),
+  paste0('Supplementary Dataset S', DS_id,'. Enrichment of insulator fragments in insulator and silencer constructs.'),
   startCol = 1,
   startRow = 1
 )
@@ -1625,7 +1625,7 @@ writeData(
   paste(
     "Insulator fragments were cloned in between (insulator construct) or upstream of (silencer construct) a 35S enhancer and a 35S minimal",
     "promoter driving the expression of a barcoded GFP reporter gene. All constructs were pooled and subjected to Plant STARR-seq in",
-    "tobacco leaves (tobacco) or maize protoplasts (maize). Reporter mRNA enrichment was normalized to a control construct without an",
+    "N. benthamiana leaves (tobacco) or maize protoplasts (maize). Reporter mRNA enrichment was normalized to a control construct without an",
     "enhancer or insulator (noEnh; log2 set to 0)."
   ),
   startCol = 1,
@@ -1826,7 +1826,7 @@ addWorksheet(wb, sheetName = 'enhancer-insulator combinations')
 writeData(
   wb,
   sheet = 1,
-  paste0('Supplementary Dataset ', DS_id,'. Enrichment of insulator and silencer constructs with eight different enhancers.'),
+  paste0('Supplementary Dataset S', DS_id,'. Enrichment of insulator and silencer constructs with eight different enhancers.'),
   startCol = 1,
   startRow = 1
 )
@@ -1840,7 +1840,7 @@ writeData(
   paste(
     "Selected insulators and insulator fragments were cloned in between (insulator construct) or upstream of (silencer construct) an enhancer",
     "and a 35S minimal promoter driving the expression of a barcoded GFP reporter gene. Eight different enhancers were used to build these",
-    "constructs. All constructs were pooled andsubjected to Plant STARR-seq in tobacco leaves (tobacco) or maize protoplasts (maize).",
+    "constructs. All constructs were pooled andsubjected to Plant STARR-seq in N. benthamiana leaves (tobacco) or maize protoplasts (maize).",
     "Reporter mRNA enrichment was normalized to a control construct without an enhancer or insulator (noEnh; log2 set to 0)."
   ),
   startCol = 1,

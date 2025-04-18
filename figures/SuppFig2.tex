@@ -17,7 +17,7 @@
 			at = {(1, 0)},
 			anchor = south east,
 		},
-		legend image post style = {fill opacity = 1},
+		legend image post style = {opacity = 1},
 		legend cell align = right,
 		legend plot pos = right,
 		scatter styles = {empty legend, noEnh, empty legend, noIns, lambda-EXOB, BEAD-1C, UASrpg, sIns1, sIns2, gypsy}
@@ -26,8 +26,10 @@
 		\pggf_annotate(diagonal)
 		
 		\pggf_scatter(
-			fill opacity = .5,
+			opacity = .5,
 			style from column = insulator,
+			noEnh/.style = {fill = noEnh, draw = noEnh, mark = diamond*},
+			noIns/.style = {fill = noIns, draw = noIns, mark = diamond*}
 		)
 		
 		\pggf_annotate(only facets = 2, scatter legend*)

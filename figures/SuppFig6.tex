@@ -108,7 +108,9 @@
 		\pggf_scatter(
 			mark size = 2,
 			style from column = insulator,
-			y error = CI
+			y error = CI,
+			noEnh/.style = {fill = noEnh, draw = noEnh, mark = diamond*},
+			noIns/.style = {fill = noIns, draw = noIns, mark = diamond*}
 		)
 	
 		\pggf_annotate(

@@ -182,6 +182,7 @@
 		},
 		legend cell align = left,
 		legend plot pos = left,
+		reverse legend
 	]{iFC_model_coef}
 	
 		\pggf_bar(
@@ -194,7 +195,8 @@
 				\coordinate (c1) at (1, 0);
 				\coordinate (c2) at (2, 0);
 				\coordinate (c3) at (3, 0);
-			}
+			},
+			legend = {\maize, \tobacco}
 		)
 	
 	\end{pggfplot}
@@ -264,7 +266,9 @@
 		\pggf_scatter(
 			mark size = 2,
 			style from column = short_id,
-			y error = CI
+			y error = CI,
+			noEnh/.style = {fill = noEnh, draw = noEnh, mark = diamond*},
+			noIns/.style = {fill = noIns, draw = noIns, mark = diamond*}
 		)
 		
 		\pggf_annotate(scatter legend*)
