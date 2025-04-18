@@ -1,6 +1,6 @@
 # Small DNA elements can act as both insulators and silencers in plants
 
-Scripts used in the article "Small DNA elements that act as both insulators and silencers in plants" ([bioRxiv](https://www.biorxiv.org/content/10.1101/2024.09.13.612883v1))
+Scripts used in the article "Small DNA elements that act as both insulators and silencers in plants" ([paper link](https://doi.org/10.1093/plcell/koaf084))
 
 The folder 'code' contains all code used to process the sequencing data, analyze the results, and generate the raw data for the figures.
 
